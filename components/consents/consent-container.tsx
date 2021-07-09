@@ -6,6 +6,8 @@ import { GetConsents } from "../../src/gql/client/types/GetConsents";
 
 import { ConsentCard, ConsentReminderBox } from ".";
 import { useAppContext } from "../../src/hooks";
+import Paper from "@material-ui/core/Paper";
+import Skeleton from "@material-ui/core/Skeleton";
 
 const ConsentContainer: React.FC = () => {
   const { session } = useAppContext();
@@ -13,18 +15,27 @@ const ConsentContainer: React.FC = () => {
   const { data, loading, error, refetch } =
     useQuery<GetConsents>(getConsentsQuery);
 
-  if (loading || error) {
+  if (loading) {
     return (
       <div>
-        <CircularProgress />
+        {new Array(5).fill(0).map((x, i) => (
+          <Paper className="px-4 py-3 my-3" key={i}>
+            <Skeleton style={{ width: "25%" }} />
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+          </Paper>
+        ))}
       </div>
     );
   }
 
+  if (error) return null;
+
   const { consents, getUser } = data;
 
   return (
-    <div className="mt-3">
+    <div className="my-3">
       {session && (
         <div className="mb-4">
           <ConsentReminderBox

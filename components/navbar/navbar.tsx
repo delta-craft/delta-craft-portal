@@ -18,6 +18,7 @@ import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 import { useAppContext } from "../../src/hooks";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const Navbar: React.FC = () => {
   const router = useRouter();
@@ -101,13 +102,37 @@ const Navbar: React.FC = () => {
                 <Typography variant="h6">{session.user.name}</Typography>
               </Box>
               <Divider className="mb-2" />
-              <Link href="/profile" passHref>
-                <MenuItem onClick={handleClose}>Můj profil</MenuItem>
+              <Link href={`/players/${links?.name}`} passHref>
+                <MenuItem
+                  onClick={handleClose}
+                  disabled={!links?.name || links?.name?.length < 1}
+                >
+                  <div>
+                    Můj profil
+                    {(!links?.name || links?.name?.length < 1) && (
+                      <div>
+                        <Typography variant="caption">
+                          Nejprve si nastavte nickname
+                        </Typography>
+                      </div>
+                    )}
+                    {(!links?.name || links?.name?.length < 1) && (
+                      <div>
+                        <Typography variant="caption">
+                          (Nastavení profilu)
+                        </Typography>
+                      </div>
+                    )}
+                  </div>
+                </MenuItem>
               </Link>
               <Link href={`/teams/${links?.teamId}`} passHref>
                 <MenuItem onClick={handleClose}>Můj tým</MenuItem>
               </Link>
               <Divider />
+              <Link href="/profile" passHref>
+                <MenuItem onClick={handleClose}>Nastavení profilu</MenuItem>
+              </Link>
               <Link href={`/consents`} passHref>
                 <MenuItem onClick={handleClose}>Moje souhlasy</MenuItem>
               </Link>

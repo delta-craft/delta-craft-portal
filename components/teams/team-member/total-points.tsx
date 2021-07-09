@@ -9,9 +9,24 @@ import {
 
 interface IProps {
   ucId: string;
+  variant?:
+    | "button"
+    | "caption"
+    | "h1"
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "h6"
+    | "subtitle1"
+    | "subtitle2"
+    | "body1"
+    | "body2"
+    | "overline"
+    | "inherit";
 }
 
-const TotalPoint: React.FC<IProps> = ({ ucId }) => {
+const TotalPoint: React.FC<IProps> = ({ ucId, variant = "body2" }) => {
   const { data, loading, error } = useQuery<
     PlayerPointSummary,
     PlayerPointSummaryVariables
@@ -29,7 +44,7 @@ const TotalPoint: React.FC<IProps> = ({ ucId }) => {
 
   const total = mining + crafting + warfare + journey;
 
-  return <Typography variant="body2">{total} bodů</Typography>;
+  return <Typography variant={variant}>{total} bodů</Typography>;
 };
 
 export default TotalPoint;

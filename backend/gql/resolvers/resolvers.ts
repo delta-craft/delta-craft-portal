@@ -226,6 +226,21 @@ const resolvers = {
         blue: { summary: summaryBlue, ratios: calculateRatios(summaryBlue) },
       };
     },
+    player: async (
+      _parent,
+      { nickname },
+      _ctx,
+      _info
+    ): Promise<UserConnections> => {
+      const repo = getRepository(UserConnections);
+
+      const res = await repo.findOne({
+        where: { name: nickname },
+        relations: ["points", "points.pointTags", "team"],
+      });
+
+      return res;
+    },
   },
   Mutation: {
     updateNickname: async (_parent, { nickname }, _ctx, _info) => {

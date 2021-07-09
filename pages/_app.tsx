@@ -14,6 +14,7 @@ import { Integrations } from "@sentry/tracing";
 import { AuthContainer } from "../components/auth-container";
 import { AContext } from "../components/context/app-context";
 import { Toaster } from "react-hot-toast";
+import { MetaHead } from "../components/meta-head";
 
 const MyApp = ({ Component, pageProps }) => {
   useEffect(() => {
@@ -51,8 +52,6 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <div>
       <Head>
-        <meta name="description" content="DeltaCraft - portál hráče" />
-        <link rel="icon" href="/favicon.ico" />
         <link
           rel="stylesheet"
           href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
@@ -61,6 +60,36 @@ const MyApp = ({ Component, pageProps }) => {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
         />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/img/favicons/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/img/favicons/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/img/favicons/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/img/favicons/site.webmanifest" />
+        <link
+          rel="mask-icon"
+          href="/img/favicons/safari-pinned-tab.svg"
+          color="#121212"
+        />
+        <link rel="shortcut icon" href="/img/favicons/favicon.ico" />
+        <meta name="msapplication-TileColor" content="#121212" />
+        <meta
+          name="msapplication-config"
+          content="/img/favicons/browserconfig.xml"
+        />
+        <meta name="theme-color" content="#121212" />
         <script type="text/javascript" src="/js/mdb.min.js" defer></script>
       </Head>
       <Provider session={pageProps.session}>

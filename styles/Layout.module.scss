@@ -1,5 +1,11 @@
+@import "./_breakpoints.scss";
+
 .toolbar {
-  height: 75px;
+  height: 100px;
+
+  @include md-down {
+    height: 75px;
+  }
 }
 
 .main {

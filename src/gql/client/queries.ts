@@ -122,3 +122,22 @@ export const getMajorTeamsSummary = gql`
     }
   }
 `;
+
+export const getPlayerDetailsQuery = gql`
+  query GetPlayerDetail($nick: String!) {
+    player(nickname: $nick) {
+      id
+      name
+      team {
+        id
+        name
+        majorTeam
+      }
+      points {
+        id
+        points
+        pointType
+      }
+    }
+  }
+`;

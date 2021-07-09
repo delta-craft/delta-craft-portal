@@ -4,9 +4,15 @@ import { IPointSummary } from "../../src/models/types";
 
 interface IProps {
   points: IPointSummary;
+  height?: number | string;
+  width?: number | string;
 }
 
-const StatChart: React.FC<IProps> = ({ points }) => {
+const StatChart: React.FC<IProps> = ({
+  points,
+  height = 200,
+  width = "auto",
+}) => {
   const chartRef = useRef(null);
   const chartRef2 = useRef<Chart<"doughnut", number[], string>>(null);
 
@@ -40,14 +46,14 @@ const StatChart: React.FC<IProps> = ({ points }) => {
         color: "#fff",
       },
     });
-    chart.resize(200, 200);
+    //chart.resize(200, 200);
     chartRef2.current = chart;
   };
 
   return (
     <div
       className="chart-container"
-      style={{ position: "relative", height: 200 }}
+      style={{ position: "relative", height, width }}
     >
       <canvas ref={chartRef}></canvas>
     </div>

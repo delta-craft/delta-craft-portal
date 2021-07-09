@@ -11,7 +11,7 @@ interface IProps {
 const Member: React.FC<IProps> = ({ userConn }) => {
   const { next, name } = userConn;
 
-  const link = `/players/${next.id}`;
+  const link = `/players/${name}`;
 
   return (
     <div>

@@ -55,7 +55,7 @@ const ConsentReminderBox: React.FC<IProps> = ({
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Paper className="py-3 px-3 my-3 d-flex align-items-center justify-content-around">
+      <Paper className="py-3 px-3 my-3 d-flex flex-md-row flex-column align-items-center justify-content-around">
         <Typography>Potřebujeme od tebe další souhlas</Typography>
         <Button variant="contained" color="primary" onClick={handleUpdate}>
           Přijmout vše

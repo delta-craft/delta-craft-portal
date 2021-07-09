@@ -10,9 +10,15 @@ import {
 
 interface IProps {
   userConnectionId: string;
+  height?: number | string;
+  width?: number | string;
 }
 
-const PlayerStatChart: React.FC<IProps> = ({ userConnectionId }) => {
+const PlayerStatChart: React.FC<IProps> = ({
+  userConnectionId,
+  height,
+  width,
+}) => {
   const { data, loading, error } = useQuery<
     PlayerPointSummary,
     PlayerPointSummaryVariables
@@ -25,7 +31,13 @@ const PlayerStatChart: React.FC<IProps> = ({ userConnectionId }) => {
 
   const { getPlayerPointSummary } = data;
 
-  return <StatChart points={getPlayerPointSummary.summary} />;
+  return (
+    <StatChart
+      points={getPlayerPointSummary.summary}
+      height={height}
+      width={width}
+    />
+  );
 };
 
 export default PlayerStatChart;
