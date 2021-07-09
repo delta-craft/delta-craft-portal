@@ -27,7 +27,7 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
     <Layout>
       <MetaHead
         title={`${name} - Detail hráče - DeltaCraft`}
-        image={`https://minotar.net/avatar/${name}/128`}
+        image={`https://portal.deltacraft.eu/api/playercard?nick=${name}`}
       />
       <div className="container">
         <Paper className="px-2 py-3">
