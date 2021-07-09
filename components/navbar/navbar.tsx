@@ -1,0 +1,129 @@
+/* eslint-disable @next/next/no-img-element */
+import React, { useState } from "react";
+import { signOut, signIn } from "next-auth/client";
+import Link from "next/link";
+import classnames from "classnames";
+import { UserConnections } from "../../src/db/entities/UserConnections";
+import AppBar from "@material-ui/core/AppBar";
+import Box from "@material-ui/core/Box";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import { useRouter } from "next/router";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
+import Divider from "@material-ui/core/Divider";
+import { useAppContext } from "../../src/hooks";
+
+const Navbar: React.FC = () => {
+  const router = useRouter();
+  const indx =
+    router.pathname === "/teams" ? 0 : router.pathname === "/players" ? 1 : 100;
+
+  const { session } = useAppContext();
+  const [tab, setTab] = useState(indx);
+
+  const links = session?.links as UserConnections;
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleTabChange = (index: number) => {
+    setTab(index);
+
+    const l = index === 0 ? "/teams" : "/players";
+
+    setTimeout(() => {
+      router.push(l);
+    }, 150);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <AppBar position="fixed">
+      <Toolbar className="container">
+        {/* <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+        >
+          <MenuIcon />
+        </IconButton> */}
+        <Typography
+          variant="h6"
+          component="div"
+          // sx={{ flexGrow: 1 }}
+          className="pointer"
+        >
+          <Link href="/" passHref>
+            <div className="text-white">DeltaCraft</div>
+          </Link>
+        </Typography>
+        <Box sx={{ flexGrow: 1 }}>
+          <Tabs
+            value={tab}
+            color="primary"
+            onChange={(event, index) => handleTabChange(index)}
+            centered
+          >
+            <Tab label="Týmy" />
+            <Tab label="Hráči" />
+          </Tabs>
+        </Box>
+        {session && (
+          <div className="">
+            <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+              <Avatar alt={session.user.name} src={session.user.image} />
+            </IconButton>
+
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <Box style={{ minWidth: 150 }} className="text-center my-2">
+                <Typography variant="h6">{session.user.name}</Typography>
+              </Box>
+              <Divider className="mb-2" />
+              <Link href="/profile" passHref>
+                <MenuItem onClick={handleClose}>Můj profil</MenuItem>
+              </Link>
+              <Link href={`/teams/${links?.teamId}`} passHref>
+                <MenuItem onClick={handleClose}>Můj tým</MenuItem>
+              </Link>
+              <Divider />
+              <Link href={`/consents`} passHref>
+                <MenuItem onClick={handleClose}>Moje souhlasy</MenuItem>
+              </Link>
+              <Divider />
+              <MenuItem onClick={() => signOut()}>Odhlásit se</MenuItem>
+            </Menu>
+          </div>
+        )}
+        {!session && (
+          <Button color="inherit" onClick={() => signIn("discord")}>
+            Přihlásit se
+          </Button>
+        )}
+      </Toolbar>
+    </AppBar>
+  );
+};
+
+export default Navbar;

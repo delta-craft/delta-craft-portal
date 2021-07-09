@@ -1,0 +1,49 @@
+@import "./_colours.scss";
+
+:root {
+  --mining: #{$mining};
+  --crafting: #{$crafting};
+  --warfare: #{$warfare};
+  --journey: #{$journey};
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: $dark-bkg !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.colour {
+  &-red {
+    color: $red;
+  }
+  &-blue {
+    color: $blue;
+  }
+}
+
+.bkg {
+  &-red {
+    background-color: $red !important;
+  }
+  &-blue {
+    background-color: $blue;
+  }
+  &-crafting {
+    background-color: $crafting !important;
+  }
+  &-warfare {
+    background-color: $warfare !important;
+  }
+  &-journey {
+    background-color: $journey !important;
+  }
+  &-mining {
+    background-color: $mining !important;
+  }
+}

@@ -1,0 +1,7 @@
+@import "./scss/mdb.pro.scss";
+@import "./_colours.scss";
+
+$my-theme-primary: #0067c4;
+$my-theme-secondary: #9a53ff;
+$my-theme: mdb-dark-theme($my-theme-primary, $my-theme-secondary);
+@include mdb-theme($my-theme);
