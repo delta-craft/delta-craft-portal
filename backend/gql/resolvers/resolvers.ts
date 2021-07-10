@@ -216,6 +216,10 @@ const resolvers = {
         relations: ["points", "points.pointTags", "team"],
       });
 
+      if (!res) return null;
+
+      res.points = res.points.sort((a, b) => (a.created > b.created ? -1 : 1));
+
       return res;
     },
   },

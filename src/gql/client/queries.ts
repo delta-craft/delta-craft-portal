@@ -137,6 +137,13 @@ export const getPlayerDetailsQuery = gql`
         id
         points
         pointType
+        created
+        description
+        pointTags {
+          id
+          key
+          value
+        }
       }
     }
   }

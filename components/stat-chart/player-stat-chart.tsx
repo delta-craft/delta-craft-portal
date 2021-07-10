@@ -12,12 +12,16 @@ interface IProps {
   userConnectionId: string;
   height?: number | string;
   width?: number | string;
+  fontSize?: number;
+  legendPosition?: "left" | "top" | "right" | "bottom" | "center" | "chartArea";
 }
 
 const PlayerStatChart: React.FC<IProps> = ({
   userConnectionId,
   height,
   width,
+  legendPosition = "top",
+  fontSize = 12,
 }) => {
   const { data, loading, error } = useQuery<
     PlayerPointSummary,
@@ -36,6 +40,8 @@ const PlayerStatChart: React.FC<IProps> = ({
       points={getPlayerPointSummary.summary}
       height={height}
       width={width}
+      legendPosition={legendPosition}
+      fontSize={fontSize}
     />
   );
 };

@@ -15,6 +15,8 @@ import Paper from "@material-ui/core/Paper";
 import { TotalPoints } from "../../components/teams/team-member";
 import { MetaHead } from "../../components/meta-head";
 import { PlayerStatChart } from "../../components/stat-chart";
+import { PointsTable } from "../../components/player";
+import Link from "next/link";
 
 interface IProps {
   nick: string;
@@ -22,26 +24,50 @@ interface IProps {
 }
 
 const Page: React.FC<IProps> = ({ nick, player }) => {
-  const { name, id, team } = player;
+  const { name, id, team, points } = player;
   return (
     <Layout>
       <MetaHead
         title={`${name} - Detail hráče - DeltaCraft`}
         image={`https://portal.deltacraft.eu/api/playercard?nick=${name}`}
       />
-      <div className="container">
+      <div className="container mb-4">
         <Paper className="px-2 py-3">
-          <div className="d-flex justify-content-around align-items-center">
-            <img src={`https://minotar.net/avatar/${name}/128`} alt="" />
-            <div className="d-flex flex-column justify-content-center align-items-center">
+          <div className="d-flex justify-content-center align-items-center">
+            <img
+              src={`https://minotar.net/avatar/${name}/128`}
+              alt=""
+              className="px-3"
+            />
+            <div className="d-flex flex-column justify-content-center align-items-center px-3">
               <Typography variant="h4">{name}</Typography>
-              <TotalPoints ucId={id} variant="body1" />
-              <Typography variant="body1">{team?.name}</Typography>
+              <TotalPoints ucId={id} variant="body1" className="my-2" />
+              <Link href={`/teams/${team?.id}`} passHref>
+                <Typography variant="body1" className="pointer">
+                  {team?.name}
+                </Typography>
+              </Link>
             </div>
           </div>
         </Paper>
         <Paper className="px-2 py-3 mt-3">
-          <PlayerStatChart userConnectionId={id} height={350} width={"100%"} />
+          <div className="d-flex justify-content-center ">
+            <div className="player-detail-chart">
+              <PlayerStatChart
+                userConnectionId={id}
+                height={350}
+                width={"100%"}
+                legendPosition="right"
+                fontSize={16}
+              />
+            </div>
+          </div>
+        </Paper>
+        <Paper className="px-2 py-3 mt-3 text-center">
+          <Typography variant="h6" className="my-2">
+            Získané body
+          </Typography>
+          <PointsTable points={points} />
         </Paper>
       </div>
     </Layout>

@@ -99,3 +99,11 @@ body {
     padding-left: 1rem;
   }
 }
+
+.player-detail-chart {
+  width: 50%;
+
+  @include md-down {
+    width: 100%;
+  }
+}

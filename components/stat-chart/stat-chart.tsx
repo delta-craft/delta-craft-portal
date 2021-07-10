@@ -6,12 +6,16 @@ interface IProps {
   points: IPointSummary;
   height?: number | string;
   width?: number | string;
+  fontSize?: number;
+  legendPosition?: "left" | "top" | "right" | "bottom" | "center" | "chartArea";
 }
 
 const StatChart: React.FC<IProps> = ({
   points,
   height = 200,
   width = "auto",
+  legendPosition = "top",
+  fontSize = 14,
 }) => {
   const chartRef = useRef(null);
   const chartRef2 = useRef<Chart<"doughnut", number[], string>>(null);
@@ -44,6 +48,12 @@ const StatChart: React.FC<IProps> = ({
       options: {
         maintainAspectRatio: false,
         color: "#fff",
+        plugins: {
+          legend: {
+            position: legendPosition,
+            labels: { font: { size: fontSize } },
+          },
+        },
       },
     });
     //chart.resize(200, 200);

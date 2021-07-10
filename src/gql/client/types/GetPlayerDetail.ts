@@ -14,11 +14,21 @@ export interface GetPlayerDetail_player_team {
   majorTeam: string | null;
 }
 
+export interface GetPlayerDetail_player_points_pointTags {
+  __typename: "PointTag";
+  id: string | null;
+  key: string | null;
+  value: string | null;
+}
+
 export interface GetPlayerDetail_player_points {
   __typename: "Point";
   id: string | null;
   points: number | null;
   pointType: any | null;
+  created: any | null;
+  description: string | null;
+  pointTags: (GetPlayerDetail_player_points_pointTags | null)[] | null;
 }
 
 export interface GetPlayerDetail_player {
