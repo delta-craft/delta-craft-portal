@@ -14,6 +14,7 @@ import Divider from "@material-ui/core/Divider";
 import { TeamStatDisplay } from "../../components/teams/teams-card";
 import { TeamMember } from "../../components/teams/team-member";
 import Typography from "@material-ui/core/Typography";
+import { MetaHead } from "../../components/meta-head";
 
 interface IProps {
   id: string;
@@ -21,26 +22,26 @@ interface IProps {
 }
 
 const Page: React.FC<IProps> = ({ team }) => {
-  const { name, teamColourHex, userConnections } = team;
+  const { name, teamColourHex, userConnections, id } = team;
 
   return (
     <Layout>
-      <Head>
-        <title>Tým {name} | Portal - DeltaCraft</title>
-      </Head>
+      <MetaHead
+        title={`Tým ${name} | Portal - DeltaCraft`}
+        image={`https://portal.deltacraft.eu/api/embed/team/${id}`}
+        width="2048"
+        height="1170"
+      />
 
       <div className="container text-center">
         <Typography variant="h3" className="mb-3">
           {name}
         </Typography>
         <div className="my-2">
-          <TeamStatDisplay teamId={team.id} />
+          <TeamStatDisplay teamId={id} />
         </div>
         {/* <Divider className="mb-3 mt-4" /> */}
         <div className="row">
-          {
-            // TODO: custom component
-          }
           {userConnections.map((uc, i) => (
             <div className="col-12 col-md-4 py-2" key={`uc-${i}`}>
               <TeamMember userConnection={uc} />

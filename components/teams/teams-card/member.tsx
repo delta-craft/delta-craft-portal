@@ -17,7 +17,7 @@ const Member: React.FC<IProps> = ({ userConn }) => {
     <div>
       <Link href={link} passHref>
         <img
-          src={`https://minotar.net/avatar/${name}/100`}
+          src={`https://minotar.net/helm/${name}/100`}
           className="hover-shadow pointer"
           alt=""
         />

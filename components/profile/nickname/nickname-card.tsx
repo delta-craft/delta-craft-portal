@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Skeleton from "@material-ui/core/Skeleton";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { updateNicknameMutation } from "../../../src/gql/client/mutations";
 import { getNicknameQuery } from "../../../src/gql/client/queries";
 import { GetNickname } from "../../../src/gql/client/types/GetNickname";
@@ -22,11 +22,18 @@ const NicknameCard: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { session } = useAppContext();
 
-  const { data, loading, error } = useQuery<GetNickname>(getNicknameQuery);
+  const { data, loading, error, refetch } =
+    useQuery<GetNickname>(getNicknameQuery);
 
   const [updateNick] = useMutation<UpdateNickname, UpdateNicknameVariables>(
     updateNicknameMutation
   );
+
+  useEffect(() => {
+    if (data && data.getUser) {
+      setNick(data.getUser.userConnections[0]?.name);
+    }
+  }, [data]);
 
   const handleSubmit = async () => {
     if (nick.length < 4) return;
@@ -38,6 +45,8 @@ const NicknameCard: React.FC = () => {
 
     if (data.updateNickname) toast.success("Nickname úspěšně uložen!");
     else toast.error("Chyba při změně nicku");
+
+    await refetch();
 
     setOpen(false);
   };

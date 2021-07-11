@@ -5,12 +5,16 @@ interface IProps {
   title?: string;
   description?: string;
   image?: string;
+  width?: string;
+  height?: string;
 }
 
 const MetaHead: React.FC<IProps> = ({
   description = "Portál hráče",
   title = "DeltaCraft",
   image = "banner.jpg",
+  width = "1920",
+  height = "1080",
 }) => {
   const baseDomain = "https://portal.deltacraft.eu/img/";
 
@@ -35,8 +39,10 @@ const MetaHead: React.FC<IProps> = ({
       <meta property="og:site_name" content="DeltaCraft Portal" />
       <meta property="og:locale" content="cs" />
       <meta property="og:type" content="website" />
+      <meta property="og:image:width" content={width} />
+      <meta property="og:image:height" content={height} />
       {/* <!-- Twitter --> */}
-      <meta property="twitter:card" content="summary" />
+      <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image:src" content={image} />

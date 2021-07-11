@@ -29,13 +29,15 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
     <Layout>
       <MetaHead
         title={`${name} - Detail hráče - DeltaCraft`}
-        image={`https://portal.deltacraft.eu/api/playercard?nick=${name}`}
+        image={`https://portal.deltacraft.eu/api/embed/player/${name}`}
+        width="2048"
+        height="1170"
       />
       <div className="container mb-4">
         <Paper className="px-2 py-3">
           <div className="d-flex justify-content-center align-items-center">
             <img
-              src={`https://minotar.net/avatar/${name}/128`}
+              src={`https://minotar.net/helm/${name}/128`}
               alt=""
               className="px-3"
             />

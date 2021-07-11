@@ -20,7 +20,7 @@ const TeamMember: React.FC<IProps> = ({ userConnection }) => {
         <div className="d-flex justify-content-center align-items-center">
           <Link href={`/players/${name}`} passHref>
             <img
-              src={`https://minotar.net/avatar/${name}/64`}
+              src={`https://minotar.net/helm/${name}/64`}
               alt=""
               className="pointer hover-shadow"
             />
