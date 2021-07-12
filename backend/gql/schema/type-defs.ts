@@ -57,6 +57,7 @@ const typeDefs = gql`
     name: String
     consent: Date
     points: [Point]
+    pointSummary: PointSummaryWrapper
   }
 
   type Team {

@@ -17,6 +17,7 @@ import { MetaHead } from "../../components/meta-head";
 import { PlayerStatChart } from "../../components/stat-chart";
 import { PointsTable } from "../../components/player";
 import Link from "next/link";
+import twemoji from "twemoji";
 
 interface IProps {
   nick: string;
@@ -25,6 +26,11 @@ interface IProps {
 
 const Page: React.FC<IProps> = ({ nick, player }) => {
   const { name, id, team, points } = player;
+  const { majorTeam } = team;
+
+  const icon =
+    majorTeam === "red" ? "1f534" : majorTeam === "blue" ? "1f535" : "";
+
   return (
     <Layout>
       <MetaHead
@@ -44,9 +50,17 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
             <div className="d-flex flex-column justify-content-center align-items-center px-3">
               <Typography variant="h4">{name}</Typography>
               <TotalPoints ucId={id} variant="body1" className="my-2" />
-              <Link href={`/teams/${team?.id}`} passHref>
+              <Link href={`/teams/${team.id}`} passHref>
                 <Typography variant="body1" className="pointer">
-                  {team?.name}
+                  {majorTeam && (
+                    <img
+                      src={`${twemoji.base}svg/${icon}.svg`}
+                      className="mx-1"
+                      alt="..."
+                      height="20"
+                    />
+                  )}
+                  {team.name}
                 </Typography>
               </Link>
             </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
 import React from "react";
 import { Layout } from "../../components/layout";
@@ -15,6 +16,9 @@ import { TeamStatDisplay } from "../../components/teams/teams-card";
 import { TeamMember } from "../../components/teams/team-member";
 import Typography from "@material-ui/core/Typography";
 import { MetaHead } from "../../components/meta-head";
+import twemoji from "twemoji";
+const twOptions = { folder: "svg", ext: ".svg" };
+const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 interface IProps {
   id: string;
@@ -22,7 +26,10 @@ interface IProps {
 }
 
 const Page: React.FC<IProps> = ({ team }) => {
-  const { name, teamColourHex, userConnections, id } = team;
+  const { name, teamColourHex, userConnections, id, majorTeam } = team;
+
+  const icon =
+    majorTeam === "red" ? "1f534" : majorTeam === "blue" ? "1f535" : "";
 
   return (
     <Layout>
@@ -34,9 +41,19 @@ const Page: React.FC<IProps> = ({ team }) => {
       />
 
       <div className="container text-center">
-        <Typography variant="h3" className="mb-3">
-          {name}
-        </Typography>
+        <div className="d-flex justify-content-center align-items-center">
+          {majorTeam && (
+            <img
+              src={`${twemoji.base}svg/${icon}.svg`}
+              className="mx-1"
+              alt="..."
+              height="45"
+            />
+          )}
+          <Typography variant="h3" className="mx-1 my-2">
+            {name}
+          </Typography>
+        </div>
         <div className="my-2">
           <TeamStatDisplay teamId={id} />
         </div>
