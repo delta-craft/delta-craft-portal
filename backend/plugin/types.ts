@@ -11,6 +11,7 @@ export enum ValidateError {
   MissingName = "missing_name",
   UuidNotValid = "uuid_not_valid",
   NotRegistered = "not_registered",
+  NotInTeam = "not_in_team",
 }
 
 export enum PointsError {

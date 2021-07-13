@@ -66,15 +66,22 @@ const validatePlayerJoin = async (
       return;
     }
 
-    res.status(200).json({ content: true });
+    if (firstByUid.teamId !== null && firstByUid.teamId > 0) {
+      res.status(200).json({ content: true });
+      return;
+    }
+
+    res.status(200).json({ content: false, error: ValidateError.NotInTeam });
     return;
   }
 
   const firstByName = result.find((x) => x.name === nick);
 
   if (firstByName) {
-    const updated = { ...firstByName, uid };
-    await repo.save(updated);
+    if (firstByName.uid == null || !validateUUID(firstByName.uid)) {
+      const updated = { ...firstByName, uid };
+      await repo.save(updated);
+    }
 
     if (!(await validateUserConsent(firstByName))) {
       res
@@ -83,7 +90,12 @@ const validatePlayerJoin = async (
       return;
     }
 
-    res.status(200).json({ content: true });
+    if (firstByName.teamId !== null && firstByName.teamId > 0) {
+      res.status(200).json({ content: true });
+      return;
+    }
+
+    res.status(200).json({ content: false, error: ValidateError.NotInTeam });
     return;
   }
 
