@@ -1,6 +1,8 @@
+import { getToken } from "firebase/messaging";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/client";
 import React, { createContext, useEffect, useState } from "react";
+import { initFirebase, messaging } from "../../src/firebase/fb";
 
 export interface IAppContextVals {
   session: Session;
@@ -19,9 +21,10 @@ const AppContextProvider: React.FC<{} | IAppContextVals> = ({ children }) => {
   useEffect(() => {
     if (!loading) {
       setSessionRef(session);
-      if (session)
+      if (session) {
         localStorage.setItem("internal-session", JSON.stringify(session));
-      else localStorage.removeItem("internal-session");
+        initNotifications();
+      } else localStorage.removeItem("internal-session");
     }
   }, [session, loading]);
 
@@ -32,6 +35,24 @@ const AppContextProvider: React.FC<{} | IAppContextVals> = ({ children }) => {
       if (decoded) setSessionRef(decoded);
     }
   }, []);
+
+  const initNotifications = async () => {
+    try {
+      initFirebase();
+
+      const token = await getToken(messaging, {
+        vapidKey: process.env.VAPID,
+      });
+
+      if (token) {
+        // Update token in DB
+        console.log(token);
+      } else {
+      }
+    } catch (err) {
+      console.log("Notifications init error", err);
+    }
+  };
 
   return (
     <AppContext.Provider value={{ session: sessionRef }}>
