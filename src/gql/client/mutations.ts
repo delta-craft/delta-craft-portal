@@ -11,3 +11,9 @@ export const updateConsentMutation = gql`
     updateConsent
   }
 `;
+
+export const updateLoginMutation = gql`
+  mutation UpdateLoginSession($confirm: Boolean!) {
+    updateLoginSession(confirm: $confirm)
+  }
+`;

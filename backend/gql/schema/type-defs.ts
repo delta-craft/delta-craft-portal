@@ -60,6 +60,14 @@ const typeDefs = gql`
     pointSummary: PointSummaryWrapper
   }
 
+  type LoginSession {
+    id: ID
+    ip: String
+    auth: Boolean
+    updated: Date
+    authRequest: Date
+  }
+
   type Team {
     id: ID
     name: String
@@ -90,6 +98,7 @@ const typeDefs = gql`
     getPlayerPointSummary(id: ID!): PointSummaryWrapper
     getTeamPointSummary(id: ID!): PointSummaryWrapper
     getMajorTeamsSummary: PointSummaryMajor
+    loginSession: LoginSession
     consents: [Consent]
   }
 
@@ -97,6 +106,7 @@ const typeDefs = gql`
     updateNickname(nickname: String!): Boolean
     updateTeam(name: String, colour: String): Boolean
     updateConsent: Boolean
+    updateLoginSession(confirm: Boolean!): Boolean
   }
 `;
 

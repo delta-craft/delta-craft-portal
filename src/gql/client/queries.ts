@@ -148,3 +148,15 @@ export const getPlayerDetailsQuery = gql`
     }
   }
 `;
+
+export const getLoginQuery = gql`
+  query GetLoginSession {
+    loginSession {
+      id
+      ip
+      auth
+      authRequest
+      updated
+    }
+  }
+`;

@@ -95,7 +95,7 @@ const validatePlayerJoin = async (
       return;
     }
 
-    res.status(200).json({ content: false, error: ValidateError.NotInTeam });
+    res.status(400).json({ content: false, error: ValidateError.NotInTeam });
     return;
   }
 

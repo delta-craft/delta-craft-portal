@@ -1,4 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import {
+  checkSessionValid,
+  logoutAll,
+  newLogin,
+  updateSession,
+} from "../../../backend/plugin/login-resolver/login-resolver";
 import resolvePoints from "../../../backend/plugin/points-resolver/points-resolver";
 import {
   IApiPluginResponse,
@@ -6,7 +12,14 @@ import {
 } from "../../../backend/plugin/types";
 import validatePlayerJoin from "../../../backend/plugin/validate-join";
 
-type Endpoint = "validate" | "addpoints" | "date";
+type Endpoint =
+  | "validate"
+  | "addpoints"
+  | "date"
+  | "login"
+  | "validate-session"
+  | "update-session"
+  | "logout-all";
 
 const handler = async (
   req: NextApiRequest,
@@ -40,6 +53,29 @@ const handler = async (
     res.status(200).json({
       content: Date.now(),
     });
+    return;
+  }
+
+  if (endpoint === "validate-session" && method === "GET") {
+    const ip = query.ip?.toString();
+    const uuid = query.uuid?.toString();
+
+    await checkSessionValid(uuid, ip, res);
+    return;
+  }
+
+  if (endpoint === "login" && method === "POST" && !!body) {
+    await newLogin(body, res);
+    return;
+  }
+
+  if (endpoint === "update-session" && method === "POST" && !!body) {
+    await updateSession(body, res);
+    return;
+  }
+
+  if (endpoint === "logout-all" && method === "POST") {
+    await logoutAll(res);
     return;
   }
 

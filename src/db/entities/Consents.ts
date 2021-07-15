@@ -5,7 +5,7 @@ export class Consents {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
 
-  @Column("varchar", { name: "content", nullable: true, length: 500 })
+  @Column("varchar", { name: "content", nullable: true, length: 2500 })
   content: string | null;
 
   @Column("datetime", { name: "created", nullable: true })

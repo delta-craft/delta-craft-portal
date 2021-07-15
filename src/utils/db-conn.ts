@@ -6,6 +6,7 @@ import { NextauthUsers } from "../db/entities/NextauthUsers";
 import { NextauthVerificationRequests } from "../db/entities/NextauthVerificationRequests";
 import { Points } from "../db/entities/Points";
 import { PointTags } from "../db/entities/PointTags";
+import { Sessions } from "../db/entities/Sessions";
 import { Teams } from "../db/entities/Teams";
 import { UserConnections } from "../db/entities/UserConnections";
 
@@ -40,6 +41,7 @@ export const dbConnect = async () => {
           Points,
           PointTags,
           Consents,
+          Sessions,
         ],
       });
     })();

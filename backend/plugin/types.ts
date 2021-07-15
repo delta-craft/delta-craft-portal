@@ -3,6 +3,7 @@ export enum PluginApiError {
   Unauthorized = "unauthorized",
   MethodNotValid = "invalid_method",
   Unknown = "unknown",
+  UuidNotValid = "uuid_not_valid",
 }
 
 export enum ValidateError {
@@ -14,12 +15,21 @@ export enum ValidateError {
   NotInTeam = "not_in_team",
 }
 
+export enum LoginError {
+  InvalidCode = "invalid_code",
+  RequestExpired = "request_expired",
+  SessionExpired = "session_expired",
+  IPMismatch = "ip_mismatch",
+  Denied = "denied",
+  InvalidIP = "invalid_ip",
+}
+
 export enum PointsError {
   NoPlayers = "no_players",
 }
 
 export interface IApiPluginResponse<T = any> {
   content?: T;
-  error?: PluginApiError | ValidateError | PointsError;
+  error?: PluginApiError | ValidateError | PointsError | LoginError;
   message?: string;
 }

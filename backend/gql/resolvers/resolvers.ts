@@ -1,10 +1,12 @@
 import { getRepository } from "typeorm";
 import { Consents } from "../../../src/db/entities/Consents";
 import { NextauthUsers } from "../../../src/db/entities/NextauthUsers";
+import { Sessions } from "../../../src/db/entities/Sessions";
 import { Teams } from "../../../src/db/entities/Teams";
 import { UserConnections } from "../../../src/db/entities/UserConnections";
 import { PointType } from "../../../src/models/enums";
 import { IPointSummary } from "../../../src/models/types";
+import { minutesBetween } from "../../../src/utils/date-helper";
 import { dbConnect } from "../../../src/utils/db-conn";
 import { calculateRatios } from "../../../src/utils/point-ratio";
 import {
@@ -184,6 +186,8 @@ const resolvers = {
       _ctx,
       _info
     ): Promise<UserConnections> => {
+      await dbConnect();
+
       const repo = getRepository(UserConnections);
 
       const res = await repo.findOne({
@@ -194,6 +198,28 @@ const resolvers = {
       if (!res) return null;
 
       res.points = res.points.sort((a, b) => (a.created > b.created ? -1 : 1));
+
+      return res;
+    },
+    loginSession: async (_parent, _params, _ctx, _info) => {
+      const user = _ctx.user as NextauthUsers;
+      if (!user) return null;
+
+      await dbConnect();
+
+      const uConn = await getRepository(UserConnections).findOne({
+        where: { nextId: user.id },
+      });
+
+      if (!uConn) return null;
+
+      const sessionRepo = getRepository(Sessions);
+
+      const res = await sessionRepo.findOne({
+        where: { connectionId: uConn.id },
+      });
+
+      if (minutesBetween(res.authRequest, new Date()) > 5) return null;
 
       return res;
     },
@@ -257,6 +283,48 @@ const resolvers = {
         return true;
       } catch (error) {
         console.log(error);
+        return false;
+      }
+    },
+    updateLoginSession: async (
+      _parent,
+      { confirm }: { confirm: boolean },
+      _ctx,
+      _info
+    ) => {
+      const user = _ctx.user as NextauthUsers;
+      if (!user) return null;
+
+      await dbConnect();
+
+      const uConn = await getRepository(UserConnections).findOne({
+        where: { nextId: user.id },
+      });
+
+      if (!uConn) return null;
+
+      const sessionRepo = getRepository(Sessions);
+
+      const res = await sessionRepo.findOne({
+        where: { connectionId: uConn.id },
+      });
+
+      if (!res) return false;
+
+      try {
+        if (confirm) {
+          res.auth = true;
+          res.updated = new Date();
+          await sessionRepo.save(res);
+          return true;
+        }
+        res.auth = false;
+        res.updated = null;
+        res.authRequest = null;
+        await sessionRepo.save(res);
+        return true;
+      } catch (e) {
+        console.log(e);
         return false;
       }
     },

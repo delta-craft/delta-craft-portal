@@ -23,6 +23,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
+  if (type === "home-icon") {
+    // TODO: Home icon for blue map
+  }
+
   res.status(200).json({ url, query, info: "Endpoint query not implemented" });
 };
 

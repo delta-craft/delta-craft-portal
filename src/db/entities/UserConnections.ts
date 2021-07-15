@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Sessions } from "./Sessions";
 import { NextauthUsers } from "./NextauthUsers";
 import { Teams } from "./Teams";
 import { Points } from "./Points";
@@ -33,6 +34,9 @@ export class UserConnections {
 
   @Column("datetime", { name: "consent", nullable: true })
   consent: Date | null;
+
+  @OneToMany(() => Sessions, (sessions) => sessions.connection)
+  sessions: Sessions[];
 
   @ManyToOne(
     () => NextauthUsers,

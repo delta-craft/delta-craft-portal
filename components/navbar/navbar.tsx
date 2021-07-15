@@ -130,6 +130,10 @@ const Navbar: React.FC = () => {
                 <MenuItem onClick={handleClose}>Můj tým</MenuItem>
               </Link>
               <Divider />
+              <Link href="/login" passHref>
+                <MenuItem onClick={handleClose}>Přihlášení na server</MenuItem>
+              </Link>
+              <Divider />
               <Link href="/profile" passHref>
                 <MenuItem onClick={handleClose}>Nastavení profilu</MenuItem>
               </Link>

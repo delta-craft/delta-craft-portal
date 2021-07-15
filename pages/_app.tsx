@@ -8,13 +8,12 @@ import Head from "next/head";
 import client from "../src/gql/client/client";
 import { theme } from "../components/theme/theme";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { SnackbarProvider } from "notistack";
+// import { SnackbarProvider } from "notistack";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import { AuthContainer } from "../components/auth-container";
 import { AContext } from "../components/context/app-context";
 import { Toaster } from "react-hot-toast";
-import { MetaHead } from "../components/meta-head";
 
 const MyApp = ({ Component, pageProps }) => {
   useEffect(() => {
@@ -106,9 +105,9 @@ const MyApp = ({ Component, pageProps }) => {
             />
             <ApolloProvider client={client}>
               <ThemeProvider theme={theme}>
-                <SnackbarProvider maxSnack={3}>
-                  <Component {...pageProps} />
-                </SnackbarProvider>
+                {/* <SnackbarProvider maxSnack={3}> */}
+                <Component {...pageProps} />
+                {/* </SnackbarProvider> */}
               </ThemeProvider>
             </ApolloProvider>
           </AContext.Provider>
