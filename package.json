@@ -24,7 +24,7 @@
     "apollo-server-micro": "^2.25.1",
     "chart.js": "^3.4.1",
     "classnames": "^2.3.1",
-    "firebase": "^8.7.1",
+    "firebase": "9.0.0-beta.6",
     "graphql": "^15.5.1",
     "graphql-tools": "^7.0.5",
     "marked": "^2.1.3",

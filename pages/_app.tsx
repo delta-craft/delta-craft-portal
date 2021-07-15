@@ -14,10 +14,13 @@ import { Integrations } from "@sentry/tracing";
 import { AuthContainer } from "../components/auth-container";
 import { AContext } from "../components/context/app-context";
 import { Toaster } from "react-hot-toast";
+import { initFirebase, messaging } from "../src/firebase/fb";
+import { getToken } from "firebase/messaging";
 
 const MyApp = ({ Component, pageProps }) => {
   useEffect(() => {
     log();
+
     initSentry();
   }, []);
 
