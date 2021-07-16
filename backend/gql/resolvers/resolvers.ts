@@ -9,6 +9,7 @@ import { PointType } from "../../../src/models/enums";
 import { IPointSummary } from "../../../src/models/types";
 import { minutesBetween } from "../../../src/utils/date-helper";
 import { dbConnect } from "../../../src/utils/db-conn";
+import { generateString } from "../../../src/utils/generator";
 import { calculateRatios, totalPoints } from "../../../src/utils/point-ratio";
 import {
   calcPlayerSummary,
@@ -408,6 +409,73 @@ const resolvers = {
       tokenRef.updated = new Date();
       await tokensRepo.save(tokenRef);
       return true;
+    },
+    createOrUpdateTeam: async (
+      _parent,
+      { name }: { name: string },
+      _ctx,
+      _info
+    ) => {
+      const user = _ctx.user as NextauthUsers;
+      if (!user) return null;
+
+      await dbConnect();
+      const teamsRepo = getRepository(Teams);
+
+      const team = await teamsRepo.findOne({
+        where: { ownerConnId: user.userConnections[0].id },
+      });
+
+      if (team) {
+        team.name = name;
+        if (!team.teamJoinCode || team.teamJoinCode.length < 1)
+          team.teamJoinCode = generateString(15);
+        await teamsRepo.save(team);
+        return true;
+      }
+
+      try {
+        const t = new Teams();
+        t.name = name;
+        t.ownerConnId = user.userConnections[0].id;
+        t.teamJoinCode = generateString(15);
+        await teamsRepo.save(t);
+        return true;
+      } catch (ex) {
+        console.log(ex);
+        return false;
+      }
+    },
+    joinTeam: async (_parent, { code }: { code: string }, _ctx, _info) => {
+      const user = _ctx.user as NextauthUsers;
+      if (!user) return null;
+
+      await dbConnect();
+      const teamsRepo = getRepository(Teams);
+
+      const ownsTeam = await teamsRepo.findOne({
+        where: { ownerConnId: user.userConnections[0].id },
+      });
+
+      if (ownsTeam) return false;
+
+      const team = await teamsRepo.findOne({
+        where: { teamJoinCode: code },
+      });
+
+      if (team) {
+        const uc = await getRepository(UserConnections).findOne({
+          where: { nextId: user.id },
+        });
+
+        if (uc) {
+          uc.teamId = team.id;
+          await getRepository(UserConnections).save(uc);
+          return true;
+        }
+      }
+
+      return false;
     },
   },
 };

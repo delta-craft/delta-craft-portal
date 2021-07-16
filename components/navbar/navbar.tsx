@@ -119,16 +119,18 @@ const Navbar: React.FC = () => {
                     {(!links?.name || links?.name?.length < 1) && (
                       <div>
                         <Typography variant="caption">
-                          (Nastavení profilu)
+                          Nastavení profilu
                         </Typography>
                       </div>
                     )}
                   </div>
                 </MenuItem>
               </Link>
-              <Link href={`/teams/${links?.teamId}`} passHref>
-                <MenuItem onClick={handleClose}>Můj tým</MenuItem>
-              </Link>
+              {links?.teamId && (
+                <Link href={`/teams/${links?.teamId}`} passHref>
+                  <MenuItem onClick={handleClose}>Můj tým</MenuItem>
+                </Link>
+              )}
               <Divider />
               <Link href="/login" passHref>
                 <MenuItem onClick={handleClose}>Přihlášení na server</MenuItem>
@@ -137,6 +139,10 @@ const Navbar: React.FC = () => {
               <Link href="/profile" passHref>
                 <MenuItem onClick={handleClose}>Nastavení profilu</MenuItem>
               </Link>
+              <Link href="/teams/create" passHref>
+                <MenuItem onClick={handleClose}>Nastavení týmu</MenuItem>
+              </Link>
+              <Divider />
               <Link href={`/consents`} passHref>
                 <MenuItem onClick={handleClose}>Moje souhlasy</MenuItem>
               </Link>

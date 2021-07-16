@@ -23,3 +23,15 @@ export const updateFcmTokenMutation = gql`
     updateFcmToken(token: $token)
   }
 `;
+
+export const createOrUpdateTeamMutation = gql`
+  mutation CreateOrUpdateTeam($teamName: String!) {
+    createOrUpdateTeam(name: $teamName)
+  }
+`;
+
+export const joinTeamMutation = gql`
+  mutation JoinTeam($code: String!) {
+    joinTeam(code: $code)
+  }
+`;
