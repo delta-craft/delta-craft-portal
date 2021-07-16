@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import generateHomeCard from "../../../../backend/embed/gen/generate-home-card";
 import generateTeamCard from "../../../../backend/embed/gen/generate-team-card";
 import generateUserCard from "../../../../backend/embed/gen/generate-user-card";
 
@@ -12,6 +13,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await generateUserCard(params, res);
 
+    return;
+  }
+
+  if (type === "home") {
+    const params = query.params.toString();
+
+    await generateHomeCard(params, res);
     return;
   }
 

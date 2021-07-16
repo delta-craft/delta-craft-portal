@@ -41,15 +41,24 @@ const getBrowser = async (isDev: boolean) => {
   return browser;
 };
 
-export const getScreenshot = async (html: string, isDev: boolean) => {
+export const getScreenshot = async (
+  html: string,
+  isDev: boolean,
+  transparentBackground: boolean = false,
+  width: number = 2048,
+  height: number = 1170
+) => {
   const browser = await getBrowser(isDev);
   const ctx = await browser.newContext();
   const page = await ctx.newPage();
 
   // const page = await browser.newPage();
-  await page.setViewportSize({ width: 2048, height: 1170 });
+  await page.setViewportSize({ width, height });
   await page.setContent(html);
-  const file = await page.screenshot({ type: "png" });
+  const file = await page.screenshot({
+    type: "png",
+    omitBackground: transparentBackground,
+  });
   await browser.close();
   return file;
 };

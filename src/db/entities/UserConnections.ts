@@ -68,6 +68,9 @@ export class UserConnections {
   @JoinColumn([{ name: "team_id", referencedColumnName: "id" }])
   team: Teams;
 
+  @OneToMany(() => Teams, (teams) => teams.ownerConn)
+  teams: Teams[];
+
   @OneToMany(() => Points, (points) => points.user)
   points: Points[];
 }
