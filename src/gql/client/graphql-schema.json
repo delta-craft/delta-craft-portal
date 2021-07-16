@@ -886,6 +886,22 @@
             "deprecationReason": null
           },
           {
+            "name": "players",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "UserConnections",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "getTeams",
             "description": null,
             "args": [],

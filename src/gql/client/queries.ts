@@ -160,3 +160,31 @@ export const getLoginQuery = gql`
     }
   }
 `;
+
+export const getPlayersQuery = gql`
+  query GetPlayers {
+    players {
+      id
+      name
+      team {
+        id
+        name
+        majorTeam
+      }
+      pointSummary {
+        ratios {
+          crafting
+          mining
+          journey
+          warfare
+        }
+        summary {
+          crafting
+          mining
+          journey
+          warfare
+        }
+      }
+    }
+  }
+`;

@@ -9,7 +9,7 @@ import { PointType } from "../../../src/models/enums";
 import { IPointSummary } from "../../../src/models/types";
 import { minutesBetween } from "../../../src/utils/date-helper";
 import { dbConnect } from "../../../src/utils/db-conn";
-import { calculateRatios } from "../../../src/utils/point-ratio";
+import { calculateRatios, totalPoints } from "../../../src/utils/point-ratio";
 import {
   calcPlayerSummary,
   calcTeamSummary,
@@ -204,6 +204,34 @@ const resolvers = {
       res.points = res.points.sort((a, b) => (a.created > b.created ? -1 : 1));
 
       return res;
+    },
+    players: async (_parent, _params, _ctx, _info): Promise<{}[]> => {
+      await dbConnect();
+
+      const repo = getRepository(UserConnections);
+
+      const res = await repo.find({
+        relations: ["points", "points.pointTags", "team"],
+      });
+
+      if (!res) return [];
+
+      const valid = res.filter((x) => x.name !== null);
+
+      let arr = [];
+
+      for (const v of valid) {
+        arr = [...arr, { ...v, pointSummary: calcPlayerSummary(v) }];
+      }
+
+      arr = arr.sort((a, b) =>
+        totalPoints(a.pointSummary.summary) >
+        totalPoints(b.pointSummary.summary)
+          ? -1
+          : 1
+      );
+
+      return arr;
     },
     loginSession: async (_parent, _params, _ctx, _info) => {
       const user = _ctx.user as NextauthUsers;
