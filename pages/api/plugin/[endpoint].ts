@@ -6,6 +6,7 @@ import {
   updateSession,
 } from "../../../backend/plugin/login-resolver/login-resolver";
 import resolvePoints from "../../../backend/plugin/points-resolver/points-resolver";
+import { resolveSkin } from "../../../backend/plugin/skin-resolver/skin-resolver";
 import {
   IApiPluginResponse,
   PluginApiError,
@@ -19,7 +20,8 @@ type Endpoint =
   | "login"
   | "validate-session"
   | "update-session"
-  | "logout-all";
+  | "logout-all"
+  | "skin";
 
 const handler = async (
   req: NextApiRequest,
@@ -28,6 +30,16 @@ const handler = async (
   const { url, query, method, body } = req;
 
   const endpoint = query.endpoint.toString() as Endpoint;
+
+  if (endpoint === "skin" && method === "GET") {
+    const uid = query.uuid?.toString();
+    await resolveSkin(uid, res);
+    return;
+  }
+
+  /**
+   *  Resolvers below need authorization
+   */
 
   if (req.headers.authorization !== process.env.PLUGIN_SECRET) {
     res.status(401).json({
@@ -38,8 +50,8 @@ const handler = async (
   }
 
   if (endpoint === "validate" && method === "GET") {
-    const nick = query.nick.toString();
-    const uid = query.uuid.toString();
+    const nick = query.nick?.toString();
+    const uid = query.uuid?.toString();
     await validatePlayerJoin(uid, nick, res);
     return;
   }

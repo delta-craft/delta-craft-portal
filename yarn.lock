@@ -9315,6 +9315,11 @@ pupa@^2.0.1:
   dependencies:
     escape-goat "^2.0.0"
 
+qr.js@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
+  integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
+
 qs@^6.9.4:
   version "6.10.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.1.tgz#4931482fa8d647a5aab799c5271d2133b981fb6a"
@@ -9453,6 +9458,14 @@ react-markdown@^6.0.2:
     unified "^9.0.0"
     unist-util-visit "^2.0.0"
     vfile "^4.0.0"
+
+react-qr-code@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-qr-code/-/react-qr-code-2.0.0.tgz#ecd66ab88d7d4ba759d997832d695b4995a9be25"
+  integrity sha512-jNkwXhpNR7wU20nuiN/PgqOYrKmD2QPHZdPJVLL5qbeULP+wzQUo4EL9Q5h3lpmvwrGnjM1rNUyET+C6Sq5NTg==
+  dependencies:
+    prop-types "^15.7.2"
+    qr.js "0.0.0"
 
 react-refresh@0.8.3:
   version "0.8.3"

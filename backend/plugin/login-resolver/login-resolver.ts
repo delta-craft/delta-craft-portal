@@ -1,10 +1,12 @@
 import { NextApiResponse } from "next";
 import { getRepository } from "typeorm";
+import { FcmTokens } from "../../../src/db/entities/FcmTokens";
 import { Sessions } from "../../../src/db/entities/Sessions";
 import { UserConnections } from "../../../src/db/entities/UserConnections";
 import { minutesBetween } from "../../../src/utils/date-helper";
 import { dbConnect } from "../../../src/utils/db-conn";
 import { validateUUID } from "../../../src/utils/uuid-helper";
+import { newLoginNotification } from "../../notifications/new-login-notification";
 import {
   IApiPluginResponse,
   LoginError,
@@ -62,7 +64,14 @@ const newLogin = async (
       session.authRequest = new Date();
       session.auth = null;
       await repoSessions.save(session);
+
+      const tokens = await getRepository(FcmTokens).find({
+        where: { connectionId: uConn.id },
+      });
+      await newLoginNotification(tokens.map((x) => x.token));
+
       res.status(200).json({ content: true });
+
       return;
     }
 
@@ -71,7 +80,14 @@ const newLogin = async (
     s.authRequest = new Date();
     s.auth = null;
     await repoSessions.save(s);
+    const tokens = await getRepository(FcmTokens).find({
+      where: { connectionId: uConn.id },
+    });
+
+    await newLoginNotification(tokens.map((x) => x.token));
+
     res.status(200).json({ content: true });
+
     return;
   } catch (error) {
     console.log(error);
@@ -179,7 +195,7 @@ const checkSessionValid = async (
     return;
   }
 
-  if (!session.updated) {
+  if (!session.updated || !session.authRequest) {
     res.status(400).json({ content: false, error: LoginError.SessionExpired });
     return;
   }

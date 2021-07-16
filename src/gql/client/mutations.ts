@@ -17,3 +17,9 @@ export const updateLoginMutation = gql`
     updateLoginSession(confirm: $confirm)
   }
 `;
+
+export const updateFcmTokenMutation = gql`
+  mutation UpdateFcmToken($token: String!) {
+    updateFcmToken(token: $token)
+  }
+`;

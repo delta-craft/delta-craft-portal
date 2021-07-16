@@ -1,14 +1,13 @@
-/* eslint-disable import/no-anonymous-default-export */
 import { initializeApp, getApps, FirebaseApp } from "firebase/app";
 import { FirebaseMessaging, getMessaging } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyABpgtp0DHY2XabJkq_c9gwQi2WV_TStGQ",
-  authDomain: "delta-craft.firebaseapp.com",
-  projectId: "delta-craft",
-  storageBucket: "delta-craft.appspot.com",
-  messagingSenderId: "533973956878",
-  appId: "1:533973956878:web:b8a6a199e1f7d473febf5f",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_SENDERID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
 };
 
 let firebaseApp: FirebaseApp;
