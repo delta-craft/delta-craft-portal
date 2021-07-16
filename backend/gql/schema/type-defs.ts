@@ -93,6 +93,7 @@ const typeDefs = gql`
     getUsers: [User]
     getUser: User
     player(nickname: String!): UserConnections
+    players: [UserConnections]
     getTeams: [Team]
     getTeam(id: ID!): Team
     getPlayerPointSummary(id: ID!): PointSummaryWrapper
