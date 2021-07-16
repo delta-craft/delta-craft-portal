@@ -1,5 +1,6 @@
 import { getRepository } from "typeorm";
 import { Consents } from "../../../src/db/entities/Consents";
+import { FcmTokens } from "../../../src/db/entities/FcmTokens";
 import { NextauthUsers } from "../../../src/db/entities/NextauthUsers";
 import { Sessions } from "../../../src/db/entities/Sessions";
 import { Teams } from "../../../src/db/entities/Teams";
@@ -70,6 +71,7 @@ const resolvers = {
       _ctx,
       _info
     ): Promise<{ summary: IPointSummary; ratios: IPointSummary }> => {
+      await dbConnect();
       const repo = getRepository(UserConnections);
 
       const userConn = await repo.findOne({
@@ -86,6 +88,7 @@ const resolvers = {
       _ctx,
       _info
     ): Promise<{ summary: IPointSummary; ratios: IPointSummary }> => {
+      await dbConnect();
       const repo = getRepository(Teams);
 
       const teams = await repo.findOne({
@@ -109,6 +112,7 @@ const resolvers = {
       red: { summary: IPointSummary; ratios: IPointSummary };
       blue: { summary: IPointSummary; ratios: IPointSummary };
     }> => {
+      await dbConnect();
       // TODO: Fix sometime
       const repo = getRepository(Teams);
       const responseBlue = await repo.find({
@@ -219,6 +223,10 @@ const resolvers = {
         where: { connectionId: uConn.id },
       });
 
+      if (!res) return null;
+
+      if (!res.authRequest) return null;
+
       if (minutesBetween(res.authRequest, new Date()) > 5) return null;
 
       return res;
@@ -327,6 +335,51 @@ const resolvers = {
         console.log(e);
         return false;
       }
+    },
+    updateFcmToken: async (
+      _parent,
+      { token }: { token: string },
+      _ctx,
+      _info
+    ): Promise<boolean> => {
+      const user = _ctx.user as NextauthUsers;
+      if (!user) return null;
+
+      if (token.length < 10) return false;
+
+      await dbConnect();
+
+      const tokensRepo = getRepository(FcmTokens);
+
+      try {
+        await tokensRepo
+          .createQueryBuilder("token")
+          .delete()
+          .where("token.updated <= :date", {
+            date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+          })
+          .execute();
+      } catch (ex) {
+        console.log(ex);
+      }
+
+      const tokenRef = await tokensRepo.findOne({
+        where: { token },
+      });
+
+      if (!tokenRef) {
+        const nToken = new FcmTokens();
+        nToken.connectionId = user.userConnections[0].id;
+        nToken.token = token;
+        nToken.updated = new Date();
+        await tokensRepo.save(nToken);
+        return true;
+      }
+
+      tokenRef.connectionId = user.userConnections[0].id;
+      tokenRef.updated = new Date();
+      await tokensRepo.save(tokenRef);
+      return true;
     },
   },
 };

@@ -1,8 +1,15 @@
-import { getToken } from "firebase/messaging";
+import { useMutation } from "@apollo/client";
+
 import { Session } from "next-auth";
 import { useSession } from "next-auth/client";
 import React, { createContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { initFirebase, messaging } from "../../src/firebase/fb";
+import { updateFcmTokenMutation } from "../../src/gql/client/mutations";
+import {
+  UpdateFcmToken,
+  UpdateFcmTokenVariables,
+} from "../../src/gql/client/types/UpdateFcmToken";
 
 export interface IAppContextVals {
   session: Session;
@@ -18,12 +25,13 @@ const AppContextProvider: React.FC<{} | IAppContextVals> = ({ children }) => {
   const [session, loading] = useSession();
   const [sessionRef, setSessionRef] = useState(session);
 
+
+
   useEffect(() => {
     if (!loading) {
       setSessionRef(session);
       if (session) {
         localStorage.setItem("internal-session", JSON.stringify(session));
-        initNotifications();
       } else localStorage.removeItem("internal-session");
     }
   }, [session, loading]);
@@ -35,24 +43,6 @@ const AppContextProvider: React.FC<{} | IAppContextVals> = ({ children }) => {
       if (decoded) setSessionRef(decoded);
     }
   }, []);
-
-  const initNotifications = async () => {
-    try {
-      initFirebase();
-
-      const token = await getToken(messaging, {
-        vapidKey: process.env.VAPID,
-      });
-
-      if (token) {
-        // Update token in DB
-        console.log(token);
-      } else {
-      }
-    } catch (err) {
-      console.log("Notifications init error", err);
-    }
-  };
 
   return (
     <AppContext.Provider value={{ session: sessionRef }}>

@@ -4,6 +4,7 @@ import Providers from "next-auth/providers";
 import { getRepository } from "typeorm";
 import { UserConnections } from "../../../src/db/entities/UserConnections";
 import { dbConnect } from "../../../src/utils/db-conn";
+import { generateString } from "../../../src/utils/generator";
 
 const auth = NextAuth({
   debug: false,
@@ -36,13 +37,25 @@ const auth = NextAuth({
           where: { nextId: user.id },
           relations: ["team"],
         });
+
         if (!res) return session;
+
+        if (!res.mobileToken || res.mobileToken.length < 10) {
+          res.mobileToken = generateString(100);
+          await repo.save(res);
+        }
 
         session.links = res;
 
         return session;
       } catch (err) {
-        repo.insert({ nextId: user.id as any, consent: new Date(2020, 1, 1) });
+        const r = await repo.save({
+          nextId: user.id as any,
+          consent: new Date(2020, 1, 1),
+          mobileToken: generateString(100),
+        });
+        session.links = r;
+        return session;
       }
     },
     // jwt: async (token, user, account, profile, isNewUser) => {

@@ -38,3 +38,5 @@ yarn-error.log*
 .env
 
 src/db/ormconfig.json
+
+public/firebase-messaging-sw.js

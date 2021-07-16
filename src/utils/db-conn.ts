@@ -1,5 +1,6 @@
 import { createConnection, getConnection } from "typeorm";
 import { Consents } from "../db/entities/Consents";
+import { FcmTokens } from "../db/entities/FcmTokens";
 import { NextauthAccounts } from "../db/entities/NextauthAccounts";
 import { NextauthSessions } from "../db/entities/NextauthSessions";
 import { NextauthUsers } from "../db/entities/NextauthUsers";
@@ -42,6 +43,7 @@ export const dbConnect = async () => {
           PointTags,
           Consents,
           Sessions,
+          FcmTokens,
         ],
       });
     })();

@@ -107,6 +107,7 @@ const typeDefs = gql`
     updateTeam(name: String, colour: String): Boolean
     updateConsent: Boolean
     updateLoginSession(confirm: Boolean!): Boolean
+    updateFcmToken(token: String!): Boolean
   }
 `;
 
