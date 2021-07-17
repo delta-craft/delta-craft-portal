@@ -439,7 +439,18 @@ const resolvers = {
         t.name = name;
         t.ownerConnId = user.userConnections[0].id;
         t.teamJoinCode = generateString(15);
-        await teamsRepo.save(t);
+        const result = await teamsRepo.save(t);
+
+        const uc = await getRepository(UserConnections).findOne({
+          where: { nextId: user.id },
+        });
+
+        if (uc) {
+          uc.teamId = result.id;
+          await getRepository(UserConnections).save(uc);
+          return true;
+        }
+
         return true;
       } catch (ex) {
         console.log(ex);
