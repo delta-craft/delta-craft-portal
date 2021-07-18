@@ -33,7 +33,13 @@ const EditTeam: React.FC = () => {
     }
   }, [session]);
 
-  const max = 30;
+  useEffect(() => {
+    if (teamName.length > 0) {
+      setTeamName(teamName.trim());
+    }
+  }, [teamName]);
+
+  const max = 20;
 
   const count = teamName.length;
 

@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { createOrUpdateTeamMutation } from "../../../src/gql/client/mutations";
 import {
@@ -20,7 +20,13 @@ const CreateTeam: React.FC = () => {
     createOrUpdateTeamMutation
   );
 
-  const max = 30;
+  useEffect(() => {
+    if (teamName.length > 0) {
+      setTeamName(teamName.trim());
+    }
+  }, [teamName]);
+
+  const max = 20;
 
   const count = teamName.length;
 

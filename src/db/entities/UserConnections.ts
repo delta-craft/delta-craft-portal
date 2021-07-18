@@ -18,7 +18,7 @@ import { Points } from "./Points";
   unique: true,
 })
 @Index("FK_user_connections_nextauth_users", ["nextId"], {})
-@Index("FK_user_connections_teams", ["teamId"], {})
+@Index("user_connections_teams_id_fk", ["teamId"], {})
 @Entity("user_connections", { schema: "customer_199616_master" })
 export class UserConnections {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
@@ -62,8 +62,8 @@ export class UserConnections {
   next: NextauthUsers;
 
   @ManyToOne(() => Teams, (teams) => teams.userConnections, {
-    onDelete: "NO ACTION",
-    onUpdate: "NO ACTION",
+    onDelete: "RESTRICT",
+    onUpdate: "RESTRICT",
   })
   @JoinColumn([{ name: "team_id", referencedColumnName: "id" }])
   team: Teams;

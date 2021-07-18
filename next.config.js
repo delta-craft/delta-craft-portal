@@ -8,5 +8,8 @@ module.exports = withPWA({
     runtimeCaching,
   },
   reactStrictMode: true,
+  images: {
+    domains: ['minotar.net'],
+  },
 })
 

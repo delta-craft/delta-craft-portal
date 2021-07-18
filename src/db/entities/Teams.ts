@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { UserConnections } from "./UserConnections";
 
@@ -12,7 +13,7 @@ import { UserConnections } from "./UserConnections";
 @Index("teams_user_connections_id_fk", ["ownerConnId"], {})
 @Entity("teams", { schema: "customer_199616_master" })
 export class Teams {
-  @Column("int", { primary: true, name: "id" })
+  @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
 
   @Column("varchar", { name: "name", nullable: true, length: 50 })
