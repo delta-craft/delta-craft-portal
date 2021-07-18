@@ -9,6 +9,7 @@ import { GetLoginSession } from "../../src/gql/client/types/GetLoginSession";
 import { useAppContext } from "../../src/hooks";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const LoginContainer: React.FC = () => {
   const { session } = useAppContext();
@@ -42,13 +43,19 @@ const LoginContainer: React.FC = () => {
         <Typography variant="h5" className="my-3">
           Není zde nic ke schválení
         </Typography>
-        <Typography variant="body1" className="mt-3 mb-4">
+        <Typography variant="body1" className="mt-3 mb-1">
           Nejprve se zkus připojit na server...
+        </Typography>
+        <Typography variant="body2" className="mt-2 mb-5">
+          play.deltacraft.eu
         </Typography>
         <Button onClick={() => handleRefresh(true)} variant="outlined">
           <RefreshIcon />
           Obnovit
         </Button>
+        <Link passHref href="/profile">
+          <Button className="my-5">DeltaCraft klíč</Button>
+        </Link>
       </div>
     );
   }

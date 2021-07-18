@@ -18,6 +18,7 @@ import { PlayerStatChart } from "../../components/stat-chart";
 import { PointsTable } from "../../components/player";
 import Link from "next/link";
 import twemoji from "twemoji";
+import Image from "next/image";
 
 interface IProps {
   nick: string;
@@ -26,7 +27,7 @@ interface IProps {
 
 const Page: React.FC<IProps> = ({ nick, player }) => {
   const { name, id, team, points } = player;
-  const { majorTeam } = team;
+  const majorTeam = team?.majorTeam;
 
   const icon =
     majorTeam === "red" ? "1f534" : majorTeam === "blue" ? "1f535" : "";
@@ -42,15 +43,22 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
       <div className="container mb-4">
         <Paper className="px-2 py-3">
           <div className="d-flex justify-content-center align-items-center">
-            <img
+            <Image
+              src={`https://minotar.net/helm/${name}/128.svg`}
+              alt=""
+              className="pointer hover-shadow"
+              height={128}
+              width={128}
+            />
+            {/* <img
               src={`https://minotar.net/helm/${name}/128`}
               alt=""
               className="px-3"
-            />
+            /> */}
             <div className="d-flex flex-column justify-content-center align-items-center px-3">
               <Typography variant="h4">{name}</Typography>
               <TotalPoints ucId={id} variant="body1" className="my-2" />
-              <Link href={`/teams/${team.id}`} passHref>
+              <Link href={`/teams/${team?.id}`} passHref>
                 <Typography variant="body1" className="pointer">
                   {majorTeam && (
                     <img
@@ -60,7 +68,7 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
                       height="20"
                     />
                   )}
-                  {team.name}
+                  {team?.name}
                 </Typography>
               </Link>
             </div>

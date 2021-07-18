@@ -44,6 +44,12 @@ const Registration: React.FC = () => {
     } else toast.error("Chyba při registraci");
   };
 
+  useEffect(() => {
+    if (nick.length > 0) {
+      setNick(nick.trim());
+    }
+  }, [nick]);
+
   if (!session) {
     return (
       <div

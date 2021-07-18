@@ -193,6 +193,8 @@ const resolvers = {
     ): Promise<UserConnections> => {
       await dbConnect();
 
+      nickname = nickname.trim();
+
       const repo = getRepository(UserConnections);
 
       const res = await repo.findOne({
@@ -265,6 +267,9 @@ const resolvers = {
     updateNickname: async (_parent, { nickname }, _ctx, _info) => {
       const user = _ctx.user as NextauthUsers;
       if (!user) return false;
+
+      nickname = nickname.trim();
+
       if (nickname.length < 4) return false;
       await dbConnect();
       const repo = getRepository(UserConnections);
@@ -280,8 +285,8 @@ const resolvers = {
       const user = _ctx.user as NextauthUsers;
       if (!user) return false;
 
-      const name = _params.name;
-      const colour = _params.colour;
+      const name = _params.name?.trim();
+      const colour = _params.colour?.trim();
 
       const teamId = user.userConnections[0]?.teamId;
 
@@ -419,6 +424,12 @@ const resolvers = {
       const user = _ctx.user as NextauthUsers;
       if (!user) return null;
 
+      const max = 20;
+
+      if (name.length > max) return false;
+
+      name = name.trim();
+
       await dbConnect();
       const teamsRepo = getRepository(Teams);
 
@@ -439,19 +450,22 @@ const resolvers = {
         t.name = name;
         t.ownerConnId = user.userConnections[0].id;
         t.teamJoinCode = generateString(15);
+
         const result = await teamsRepo.save(t);
 
-        const uc = await getRepository(UserConnections).findOne({
+        const ucRepo = getRepository(UserConnections);
+
+        const uc = await ucRepo.findOne({
           where: { nextId: user.id },
         });
-
         if (uc) {
           uc.teamId = result.id;
-          await getRepository(UserConnections).save(uc);
+
+          await ucRepo.save(uc);
           return true;
         }
 
-        return true;
+        return false;
       } catch (ex) {
         console.log(ex);
         return false;

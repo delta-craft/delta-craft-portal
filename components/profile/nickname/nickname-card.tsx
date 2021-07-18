@@ -31,9 +31,16 @@ const NicknameCard: React.FC = () => {
 
   useEffect(() => {
     if (data && data.getUser) {
-      setNick(data.getUser.userConnections[0]?.name);
+      const name = data.getUser.userConnections[0]?.name;
+      if (name) setNick(name);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (nick?.length > 0) {
+      setNick(nick.trim());
+    }
+  }, [nick]);
 
   const handleSubmit = async () => {
     if (nick.length < 4) return;
@@ -85,7 +92,7 @@ const NicknameCard: React.FC = () => {
             <TextField
               variant="standard"
               label="Nickname ve hře"
-              value={nick == "" ? name : nick}
+              value={nick}
               fullWidth
               onChange={(event) => setNick(event.currentTarget.value)}
             />

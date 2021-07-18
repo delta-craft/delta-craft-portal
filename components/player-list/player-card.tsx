@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Link from "next/link";
@@ -7,6 +6,7 @@ import twemoji from "twemoji";
 import { GetPlayers_players } from "../../src/gql/client/types/GetPlayers";
 import { totalPoints } from "../../src/utils/point-ratio";
 import { SummaryChart } from "../summary-chart";
+import Image from "next/image";
 
 interface IProps {
   player: GetPlayers_players;
@@ -30,11 +30,18 @@ const PlayerCard: React.FC<IProps> = ({ player, index }) => {
       <div className="d-flex">
         <div className="col-6 d-flex flex-column justify-content-center align-items-center">
           <Link href={`/players/${name}`} passHref>
-            <img
-              src={`https://minotar.net/helm/${name}/100`}
-              className="mb-2 pointer hover-shadow"
-              alt="..."
+            <Image
+              src={`https://minotar.net/helm/${name}/100.svg`}
+              alt=""
+              className="pointer hover-shadow"
+              height={100}
+              width={100}
             />
+            {/* <img
+              src={`https://minotar.net/helm/${name}/100`}
+              className="mb-2 "
+              alt="..."
+            /> */}
           </Link>
           <Typography variant="h3" className="mt-2">
             #{index + 1}
@@ -49,6 +56,7 @@ const PlayerCard: React.FC<IProps> = ({ player, index }) => {
             </Link>
             <div className="d-flex flex-row justify-content-center align-items-center">
               {team?.majorTeam && (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={`${twemoji.base}svg/${icon}.svg`}
                   className="mx-1"

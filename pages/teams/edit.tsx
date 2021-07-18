@@ -34,9 +34,12 @@ const Page: React.FC = () => {
       <MetaHead title="Upravit tým | DeltaCraft" />
       <div className="container">
         <EditTeam />
-        <Paper className="mt-2 p-4 d-flex align-items-baseline">
-          <Typography>Kód pro připojení</Typography>
-          <code className="colour-blue mx-2">{joinCode}</code>
+        <Paper className="mt-2 p-4 d-flex flex-column align-items-baseline">
+          <div className="d-flex flex-row">
+            <Typography>Kód pro připojení</Typography>
+            <code className="colour-blue mx-2">{joinCode}</code>
+          </div>
+          <Typography variant="caption">Neukazuje se? F5</Typography>
         </Paper>
       </div>
     </Layout>
