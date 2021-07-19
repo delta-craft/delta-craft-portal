@@ -5,6 +5,7 @@ import { createStyles, makeStyles } from "@material-ui/styles";
 import { Theme } from "@material-ui/core/styles";
 import { theme } from "../theme/theme";
 import classNames from "classnames";
+import { Footer } from "../footer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,6 +22,8 @@ const Layout: React.FC = ({ children }) => {
       <Navbar />
       <div className={styles.toolbar} />
       <main className="">{children}</main>
+      <div className={styles.footer} />
+      <Footer />
     </div>
   );
 };
