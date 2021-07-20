@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 import { FcmTokens } from "../../../src/db/entities/FcmTokens";
 import { ServerLogins } from "../../../src/db/entities/ServerLogins";
 import { Sessions } from "../../../src/db/entities/Sessions";
+import { Teams } from "../../../src/db/entities/Teams";
 import { UserConnections } from "../../../src/db/entities/UserConnections";
 import { minutesBetween } from "../../../src/utils/date-helper";
 import { dbConnect } from "../../../src/utils/db-conn";
@@ -155,20 +156,32 @@ const updateSession = async (
   }
 };
 
+interface ISessionResponse {
+  success: boolean;
+  team?: {
+    id: number;
+    name: string;
+    majorTeam: string;
+  };
+}
+
 const checkSessionValid = async (
   uuid: string,
   ip: string,
-  res: NextApiResponse<IApiPluginResponse<boolean>>
+  res: NextApiResponse<IApiPluginResponse<ISessionResponse>>
 ) => {
   if (!validateUUID(uuid)) {
-    res
-      .status(400)
-      .json({ content: false, error: PluginApiError.UuidNotValid });
+    res.status(400).json({
+      content: { success: false },
+      error: PluginApiError.UuidNotValid,
+    });
     return;
   }
 
   if (!validateIPv4(ip)) {
-    res.status(400).json({ content: false, error: LoginError.InvalidIP });
+    res
+      .status(400)
+      .json({ content: { success: false }, error: LoginError.InvalidIP });
     return;
   }
 
@@ -177,11 +190,15 @@ const checkSessionValid = async (
   const sessionRepo = getRepository(Sessions);
   const repoUCons = getRepository(UserConnections);
 
-  const uConn = await repoUCons.findOne({ where: { uid: uuid } });
+  const uConn = await repoUCons.findOne({
+    where: { uid: uuid },
+    relations: ["Teams"],
+  });
   if (!uConn) {
-    res
-      .status(400)
-      .json({ content: false, error: ValidateError.NotRegistered });
+    res.status(400).json({
+      content: { success: false },
+      error: ValidateError.NotRegistered,
+    });
     return;
   }
 
@@ -192,12 +209,16 @@ const checkSessionValid = async (
   // console.log(session);
 
   if (!session) {
-    res.status(400).json({ content: false, error: PluginApiError.Unknown });
+    res
+      .status(400)
+      .json({ content: { success: false }, error: PluginApiError.Unknown });
     return;
   }
 
   if (!session.updated || !session.authRequest) {
-    res.status(400).json({ content: false, error: LoginError.SessionExpired });
+    res
+      .status(400)
+      .json({ content: { success: false }, error: LoginError.SessionExpired });
     return;
   }
 
@@ -207,7 +228,9 @@ const checkSessionValid = async (
     session.auth = null;
     session.authRequest = null;
     await sessionRepo.save(session);
-    res.status(400).json({ content: false, error: LoginError.Denied });
+    res
+      .status(400)
+      .json({ content: { success: false }, error: LoginError.Denied });
     return;
   }
 
@@ -220,13 +243,15 @@ const checkSessionValid = async (
     session.auth = null;
     session.authRequest = null;
     await sessionRepo.save(session);
-    res.status(400).json({ content: false, error: LoginError.SessionExpired });
+    res
+      .status(400)
+      .json({ content: { success: false }, error: LoginError.SessionExpired });
     return;
   }
 
   await logNewLogin(uConn, ip);
 
-  res.status(200).json({ content: true });
+  res.status(200).json({ content: { success: true, team: { ...uConn.team } } });
   return;
 };
 

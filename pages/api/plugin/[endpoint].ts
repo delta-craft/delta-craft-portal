@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import chatResolver from "../../../backend/plugin/chat-resolver/chat-resolver";
 import {
   checkSessionValid,
   logoutAll,
@@ -21,7 +22,8 @@ type Endpoint =
   | "validate-session"
   | "update-session"
   | "logout-all"
-  | "skin";
+  | "skin"
+  | "check-chat";
 
 const handler = async (
   req: NextApiRequest,
@@ -38,7 +40,7 @@ const handler = async (
   }
 
   /**
-   *  Resolvers below need authorization
+   *  Resolvers below require authorization
    */
 
   if (req.headers.authorization !== process.env.PLUGIN_SECRET) {
@@ -46,6 +48,13 @@ const handler = async (
       error: PluginApiError.Unauthorized,
       content: { url, query, body, method },
     });
+    return;
+  }
+
+  if (endpoint === "check-chat" && method === "GET") {
+    const message = query.message?.toString();
+
+    await chatResolver(message, res);
     return;
   }
 
