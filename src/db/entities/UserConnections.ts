@@ -7,6 +7,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { ServerLogins } from "./ServerLogins";
+import { PollVotes } from "./PollVotes";
 import { Sessions } from "./Sessions";
 import { FcmTokens } from "./FcmTokens";
 import { NextauthUsers } from "./NextauthUsers";
@@ -46,6 +48,12 @@ export class UserConnections {
     length: 300,
   })
   mobileToken: string | null;
+
+  @OneToMany(() => ServerLogins, (serverLogins) => serverLogins.connection)
+  serverLogins: ServerLogins[];
+
+  @OneToMany(() => PollVotes, (pollVotes) => pollVotes.connection)
+  pollVotes: PollVotes[];
 
   @OneToMany(() => Sessions, (sessions) => sessions.connection)
   sessions: Sessions[];

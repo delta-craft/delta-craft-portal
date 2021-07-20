@@ -1,6 +1,7 @@
 import { NextApiResponse } from "next";
 import { getRepository } from "typeorm";
 import { FcmTokens } from "../../../src/db/entities/FcmTokens";
+import { ServerLogins } from "../../../src/db/entities/ServerLogins";
 import { Sessions } from "../../../src/db/entities/Sessions";
 import { UserConnections } from "../../../src/db/entities/UserConnections";
 import { minutesBetween } from "../../../src/utils/date-helper";
@@ -223,8 +224,24 @@ const checkSessionValid = async (
     return;
   }
 
+  await logNewLogin(uConn, ip);
+
   res.status(200).json({ content: true });
   return;
+};
+
+const logNewLogin = async (uConn: UserConnections, ip: string) => {
+  const repo = getRepository(ServerLogins);
+
+  try {
+    const l = new ServerLogins();
+    l.connectionId = uConn.id;
+    l.ip = ip;
+    l.connectedOn = new Date();
+    await repo.save(l);
+  } catch (ex) {
+    console.log(ex);
+  }
 };
 
 const logoutAll = async (res: NextApiResponse<IApiPluginResponse<boolean>>) => {

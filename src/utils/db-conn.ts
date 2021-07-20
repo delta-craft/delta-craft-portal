@@ -7,6 +7,10 @@ import { NextauthUsers } from "../db/entities/NextauthUsers";
 import { NextauthVerificationRequests } from "../db/entities/NextauthVerificationRequests";
 import { Points } from "../db/entities/Points";
 import { PointTags } from "../db/entities/PointTags";
+import { PollOptions } from "../db/entities/PollOptions";
+import { Polls } from "../db/entities/Polls";
+import { PollVotes } from "../db/entities/PollVotes";
+import { ServerLogins } from "../db/entities/ServerLogins";
 import { Sessions } from "../db/entities/Sessions";
 import { Teams } from "../db/entities/Teams";
 import { UserConnections } from "../db/entities/UserConnections";
@@ -44,6 +48,10 @@ export const dbConnect = async () => {
           Consents,
           Sessions,
           FcmTokens,
+          Polls,
+          PollOptions,
+          PollVotes,
+          ServerLogins,
         ],
       });
     })();

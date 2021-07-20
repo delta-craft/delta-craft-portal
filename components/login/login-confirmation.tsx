@@ -14,6 +14,7 @@ import {
 import { useMutation } from "@apollo/client";
 import { updateLoginMutation } from "../../src/gql/client/mutations";
 import toast from "react-hot-toast";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 interface IProps {
   session: GetLoginSession_loginSession;
@@ -115,6 +116,13 @@ const LoginConfirmation: React.FC<IProps> = ({ session, refetch }) => {
             Schválit
           </Button>
         </div>
+      )}
+
+      {auth && (
+        <Button onClick={() => refetch(true)} variant="outlined">
+          <RefreshIcon />
+          Obnovit
+        </Button>
       )}
     </div>
   );

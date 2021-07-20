@@ -188,3 +188,19 @@ export const getPlayersQuery = gql`
     }
   }
 `;
+
+export const getPollQuery = gql`
+  query GetPoll($id: ID!) {
+    poll(id: $id) {
+      id
+      title
+      pollOptions {
+        id
+        text
+        description
+        image
+        voted
+      }
+    }
+  }
+`;

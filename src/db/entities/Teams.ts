@@ -16,7 +16,7 @@ export class Teams {
   @PrimaryGeneratedColumn({ type: "int", name: "id" })
   id: number;
 
-  @Column("varchar", { name: "name", nullable: true, length: 50 })
+  @Column("varchar", { name: "name", nullable: true, length: 25 })
   name: string | null;
 
   @Column("varchar", { name: "major_team", nullable: true, length: 50 })

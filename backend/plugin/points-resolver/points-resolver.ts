@@ -44,7 +44,11 @@ const resolvePoints = async (
     .filter(filterUnique);
 
   if (uuids.length < 1) {
-    res.status(400).json({ content: false, error: PointsError.NoPlayers });
+    res.status(400).json({
+      content: false,
+      error: PointsError.NoPlayers,
+      message: "UUID array was empty",
+    });
     return;
   }
 
@@ -55,7 +59,11 @@ const resolvePoints = async (
   const ucs = await ucRepo.find({ where: [...uidFilter] });
 
   if (!ucs || ucs.length < 1) {
-    res.status(400).json({ content: false, error: PointsError.NoPlayers });
+    res.status(400).json({
+      content: false,
+      error: PointsError.NoPlayers,
+      message: "No UserConnections found in DB",
+    });
     return;
   }
 

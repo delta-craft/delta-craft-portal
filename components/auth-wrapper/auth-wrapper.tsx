@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAppContext } from "../../src/hooks";
+import Fade from "@material-ui/core/Fade";
 
 const withAuth = (Component: any) => {
   const Wrapper = (): JSX.Element => {
@@ -13,10 +14,12 @@ const withAuth = (Component: any) => {
       }
     }, [session]);
 
-    // TODO: FIX
     return (
       <div>
-        <Component />
+        <Fade in={!session || true}>
+          <div></div>
+        </Fade>
+        {session && <Component />}
       </div>
     );
   };

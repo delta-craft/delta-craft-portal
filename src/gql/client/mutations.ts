@@ -35,3 +35,9 @@ export const joinTeamMutation = gql`
     joinTeam(code: $code)
   }
 `;
+
+export const updateVoteMutation = gql`
+  mutation UpdateVote($optionId: ID!) {
+    updateVote(optionId: $optionId)
+  }
+`;

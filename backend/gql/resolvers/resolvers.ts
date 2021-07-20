@@ -2,6 +2,8 @@ import { getRepository } from "typeorm";
 import { Consents } from "../../../src/db/entities/Consents";
 import { FcmTokens } from "../../../src/db/entities/FcmTokens";
 import { NextauthUsers } from "../../../src/db/entities/NextauthUsers";
+import { Polls } from "../../../src/db/entities/Polls";
+import { PollVotes } from "../../../src/db/entities/PollVotes";
 import { Sessions } from "../../../src/db/entities/Sessions";
 import { Teams } from "../../../src/db/entities/Teams";
 import { UserConnections } from "../../../src/db/entities/UserConnections";
@@ -22,6 +24,64 @@ const resolvers = {
   Date: dateScalar,
   PointType: pointTypeScalar,
   Query: {
+    poll: async (_parent, { id }: { id: string }, _ctx, _info) => {
+      const user = _ctx.user as NextauthUsers;
+      if (!user) return null;
+      await dbConnect();
+
+      const repo = getRepository(Polls);
+
+      const poll = await repo.findOne({
+        where: { id },
+        relations: ["pollOptions"],
+      });
+
+      if (!poll) return null;
+
+      const opts = poll.pollOptions.map((x) => x.id);
+
+      const pollsVotesRepo = getRepository(PollVotes);
+
+      let votes = await pollsVotesRepo.find({
+        where: { connectionId: user.userConnections[0].id },
+      });
+
+      votes = votes.filter((x) => opts.includes(x.pollOptionId));
+
+      const options = poll.pollOptions as any[];
+
+      for (const v of votes) {
+        const o = options.find((x) => x.id === v.pollOptionId);
+        if (!o) continue;
+
+        o.voted = v.voted;
+      }
+
+      return { ...poll, pollOptions: options };
+    },
+    userPollVotes: async (_parent, { id }: { id: string }, _ctx, _info) => {
+      await dbConnect();
+
+      const pollsRepo = getRepository(Polls);
+      const pollsVotesRepo = getRepository(PollVotes);
+
+      const poll = await pollsRepo.findOne({
+        where: { id },
+        relations: ["pollOptions"],
+      });
+
+      if (!poll) return null;
+
+      const opts = poll.pollOptions.map((x) => x.id);
+
+      const votes = await pollsVotesRepo.find({
+        where: { id: [...opts] },
+      });
+
+      console.log(votes);
+
+      return votes;
+    },
     test: () => "test",
     getUsers: async () => {
       await dbConnect();
@@ -389,7 +449,7 @@ const resolvers = {
         await tokensRepo
           .createQueryBuilder("token")
           .delete()
-          .where("token.updated <= :date", {
+          .where("updated <= :date", {
             date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
           })
           .execute();
@@ -501,6 +561,54 @@ const resolvers = {
       }
 
       return false;
+    },
+    updateVote: async (
+      _parent,
+      { optionId }: { optionId: string },
+      _ctx,
+      _info
+    ) => {
+      const user = _ctx.user as NextauthUsers;
+      if (!user) return null;
+
+      await dbConnect();
+
+      const optionsRepo = getRepository(PollVotes);
+
+      const votes = await optionsRepo.find({
+        where: { connectionId: user.userConnections[0].id },
+      });
+
+      const v = votes.find((x) => x.pollOptionId.toString() === optionId);
+
+      // TODO: Fix logic when only one vote
+
+      if (!v) {
+        try {
+          const vote = new PollVotes();
+          vote.connectionId = user.userConnections[0].id;
+          vote.pollOptionId = +optionId;
+          vote.voted = true;
+          vote.votedOn = new Date();
+
+          await optionsRepo.save(vote);
+          return true;
+        } catch (ex) {
+          console.log(ex);
+          return false;
+        }
+      }
+
+      v.voted = !v.voted;
+      v.votedOn = new Date();
+
+      try {
+        await optionsRepo.save(v);
+      } catch (ex) {
+        console.log(ex);
+        return false;
+      }
+      return true;
     },
   },
 };

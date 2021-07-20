@@ -88,6 +88,30 @@ const typeDefs = gql`
     created: Date
   }
 
+  type Poll {
+    id: ID
+    title: String
+    pollOptions: [PollOption]
+  }
+
+  type PollOption {
+    id: ID
+    pollId: ID
+    text: String
+    description: String
+    image: String
+    poll: Poll
+    voted: Boolean
+  }
+
+  type PollVotes {
+    id: ID
+    connectionId: ID
+    pollOptionId: ID
+    pollOption: PollOption
+    connection: UserConnections
+  }
+
   type Query {
     test: String
     getUsers: [User]
@@ -101,6 +125,8 @@ const typeDefs = gql`
     getMajorTeamsSummary: PointSummaryMajor
     loginSession: LoginSession
     consents: [Consent]
+    poll(id: ID!): Poll
+    userPollVotes(id: ID!): [PollVotes]
   }
 
   type Mutation {
@@ -111,6 +137,7 @@ const typeDefs = gql`
     updateFcmToken(token: String!): Boolean
     createOrUpdateTeam(name: String!): Boolean
     joinTeam(code: String!): Boolean
+    updateVote(optionId: ID!): Boolean
   }
 `;
 
