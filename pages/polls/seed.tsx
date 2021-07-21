@@ -6,7 +6,7 @@ import SeedPollContainer from "../../components/polls/seed/seed-poll-container";
 const Page: React.FC = () => {
   return (
     <Layout>
-      <MetaHead title="Výběr seedu | DeltaCraft" />
+      <MetaHead title="Výběr seedu | DeltaCraft" image="polls/seed.png" />
       <div className="container">
         <SeedPollContainer />
       </div>

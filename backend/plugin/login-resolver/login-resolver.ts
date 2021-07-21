@@ -192,8 +192,8 @@ const checkSessionValid = async (
 
   const uConn = await repoUCons.findOne({
     where: { uid: uuid },
-    relations: ["Teams"],
   });
+
   if (!uConn) {
     res.status(400).json({
       content: { success: false },
@@ -205,8 +205,6 @@ const checkSessionValid = async (
   const session = await sessionRepo.findOne({
     where: { connectionId: uConn.id },
   });
-
-  // console.log(session);
 
   if (!session) {
     res
@@ -251,7 +249,18 @@ const checkSessionValid = async (
 
   await logNewLogin(uConn, ip);
 
-  res.status(200).json({ content: { success: true, team: { ...uConn.team } } });
+  const team = await getRepository(Teams).findOne({
+    where: { id: uConn.teamId },
+  });
+
+  if (!team) {
+    res.status(200).json({ content: { success: true, team: null } });
+    return;
+  }
+
+  const t = { id: team.id, majorTeam: team.majorTeam, name: team.name };
+
+  res.status(200).json({ content: { success: true, team: t } });
   return;
 };
 
