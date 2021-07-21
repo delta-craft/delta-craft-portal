@@ -25,6 +25,8 @@ const Row: React.FC<IRowData> = ({ point }) => {
   const { points, pointType, id, created, description, pointTags } = point;
   const [open, setOpen] = React.useState(false);
 
+  
+
   return (
     <React.Fragment>
       <TableRow className={styles.row}>

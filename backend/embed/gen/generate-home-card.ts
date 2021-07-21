@@ -1,5 +1,6 @@
 import { NextApiResponse } from "next";
 import { getRepository } from "typeorm";
+import { Teams } from "../../../src/db/entities/Teams";
 import { UserConnections } from "../../../src/db/entities/UserConnections";
 import { dbConnect } from "../../../src/utils/db-conn";
 import { calcPlayerSummary } from "../../db-helper/summary-helper";
@@ -16,8 +17,31 @@ const generateHomeCard = async (nick: string, res: NextApiResponse) => {
     return;
   }
 
+  await dbConnect();
+
+  const user = await getRepository(UserConnections).findOne({
+    where: { name: nick },
+  });
+
+  let teamColour = "black";
+
+  if (user) {
+    const team = await getRepository(Teams).findOne({
+      where: { id: user.teamId },
+    });
+
+    if (team) {
+      teamColour =
+        team.majorTeam === "red"
+          ? "red"
+          : team.majorTeam === "blue"
+          ? "blue"
+          : "black";
+    }
+  }
+
   try {
-    const html = getHomeCardHtml(nick);
+    const html = getHomeCardHtml(nick, teamColour);
     if (debugHtml) {
       res.setHeader("Content-Type", "text/html");
       res.end(html);

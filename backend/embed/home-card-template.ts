@@ -49,7 +49,10 @@ const getCss = (theme: string, fontSize: string, nick: string) => {
     `;
 };
 
-export const getHomeCardHtml = (nick: string) => {
+export const getHomeCardHtml = (
+  nick: string,
+  colour: "red" | "blue" | "black" | string = "black"
+) => {
   return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -60,7 +63,7 @@ export const getHomeCardHtml = (nick: string) => {
     </style>
     <body>
         <img src="https://minotar.net/helm/${nick}/500.svg" class="head" />
-        <img src="${endpoint}/icons/home_black_24dp.svg" alt="..." height="14" class="icon" />
+        <img src="${endpoint}/icons/home_${colour}.svg" alt="..." height="14" class="icon" />
     </body>
 </html>`;
 };
