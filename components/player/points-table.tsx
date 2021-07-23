@@ -9,23 +9,21 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import moment from "moment";
 import { PointType } from "../../src/models/enums";
 import styles from "../../styles/PointsTable.module.scss";
+import { PointsContainer } from "./points";
 
 interface IRowData {
   point: GetPlayerDetail_player_points;
 }
 
 const Row: React.FC<IRowData> = ({ point }) => {
-  const { points, pointType, id, created, description, pointTags } = point;
+  const { points, pointType, id, created, description } = point;
   const [open, setOpen] = React.useState(false);
-
-  
 
   return (
     <React.Fragment>
@@ -49,36 +47,12 @@ const Row: React.FC<IRowData> = ({ point }) => {
         </TableCell>
         <TableCell align="right">{description}</TableCell>
       </TableRow>
+
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                Detail
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>#</TableCell>
-                    <TableCell>Key</TableCell>
-                    <TableCell>Value</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {pointTags.map((pointTag) => {
-                    const { key, value } = pointTag;
-                    return (
-                      <TableRow key={pointTag.id}>
-                        <TableCell component="th" scope="row">
-                          {pointTag.id}
-                        </TableCell>
-                        <TableCell>{key}</TableCell>
-                        <TableCell>{value}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
+              <PointsContainer point={point} />
             </Box>
           </Collapse>
         </TableCell>

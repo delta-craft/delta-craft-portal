@@ -62,3 +62,28 @@ export const getScreenshot = async (
   await browser.close();
   return file;
 };
+
+export const getScreenshotUrl = async (
+  url: string,
+  isDev: boolean,
+  transparentBackground: boolean = false,
+  width: number = 2048,
+  height: number = 1170
+) => {
+  const browser = await getBrowser(isDev);
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+
+  // const page = await browser.newPage();
+  await page.setViewportSize({ width, height });
+  await page.goto(url);
+  // await page.waitForLoadState("networkidle");
+  await page.waitForTimeout(3500);
+  const file = await page.screenshot({
+    type: "png",
+    omitBackground: transparentBackground,
+    clip: { x: 60, y: 60, width: width - 60, height: height - 60 },
+  });
+  await browser.close();
+  return file;
+};
