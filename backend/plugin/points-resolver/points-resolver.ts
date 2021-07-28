@@ -71,6 +71,8 @@ const resolvePoints = async (
   const pointTagsRepo = getRepository(PointTags);
 
   try {
+    let tags: PointTags[] = [];
+
     for (const uc of ucs) {
       const points = data.filter((x) => x.uuid === uc.uid);
 
@@ -83,18 +85,19 @@ const resolvePoints = async (
         p.description = point.description;
 
         const resPoint = await pointRepo.save(p);
+
         if (point.pointTags && point.pointTags.length > 0) {
           for (const pt of point.pointTags) {
             const pointTag = new PointTags();
             pointTag.key = pt.key;
             pointTag.value = pt.value;
             pointTag.pointId = resPoint.id;
-
-            await pointTagsRepo.save(pointTag);
+            tags = [...tags, pointTag];
           }
         }
       }
     }
+    await pointTagsRepo.save(tags);
   } catch (err) {
     res.status(400).json({
       content: false,

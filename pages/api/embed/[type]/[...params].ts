@@ -17,17 +17,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  if (type === "dynmap-player-kill") {
-    const params = query.params;
+  // if (type === "dynmap-player-kill") {
+  //   const params = query.params;
 
-    const world = params[0].toString();
-    const x = params[1].toString();
-    const y = params[2].toString();
-    const z = params[3].toString();
+  //   const world = params[0].toString();
+  //   const x = params[1].toString();
+  //   const y = params[2].toString();
+  //   const z = params[3].toString();
 
-    await generatePlayerKillDynmap(world, x, y, z, res);
-    return;
-  }
+  //   await generatePlayerKillDynmap(world, x, y, z, res);
+  //   return;
+  // }
 
   if (type === "home") {
     const params = query.params.toString();

@@ -6,6 +6,7 @@ import {
   newLogin,
   updateSession,
 } from "../../../backend/plugin/login-resolver/login-resolver";
+import isTeamOwner from "../../../backend/plugin/login-resolver/team-owner-resolver";
 import resolvePoints from "../../../backend/plugin/points-resolver/points-resolver";
 import { resolveSkin } from "../../../backend/plugin/skin-resolver/skin-resolver";
 import {
@@ -23,7 +24,8 @@ type Endpoint =
   | "update-session"
   | "logout-all"
   | "skin"
-  | "check-chat";
+  | "check-chat"
+  | "is-team-owner";
 
 const handler = async (
   req: NextApiRequest,
@@ -55,6 +57,13 @@ const handler = async (
     const message = query.message?.toString();
 
     await chatResolver(message, res);
+    return;
+  }
+
+  if (endpoint === "is-team-owner" && method === "GET") {
+    const uid = query.uuid?.toString();
+
+    await isTeamOwner(uid, res);
     return;
   }
 
