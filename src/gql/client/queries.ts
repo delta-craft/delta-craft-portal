@@ -123,8 +123,40 @@ export const getMajorTeamsSummary = gql`
   }
 `;
 
-export const getPlayerDetailsQuery = gql`
-  query GetPlayerDetail($nick: String!) {
+export const getPlayerPointsQuery = gql`
+  query GetPlayerPoints($nick: String!) {
+    player(nickname: $nick) {
+      id
+      points {
+        id
+        points
+        pointType
+        created
+        description
+      }
+    }
+  }
+`;
+
+export const getPointQuery = gql`
+  query PointQuery($id: ID!) {
+    point(id: $id) {
+      id
+      points
+      pointType
+      created
+      description
+      pointTags {
+        id
+        key
+        value
+      }
+    }
+  }
+`;
+
+export const getPlayerDetailsNoPointsQuery = gql`
+  query GetPlayerDetailNoPoints($nick: String!) {
     player(nickname: $nick) {
       id
       name
@@ -132,18 +164,6 @@ export const getPlayerDetailsQuery = gql`
         id
         name
         majorTeam
-      }
-      points {
-        id
-        points
-        pointType
-        created
-        description
-        pointTags {
-          id
-          key
-          value
-        }
       }
     }
   }

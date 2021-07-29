@@ -52,7 +52,7 @@ const Row: React.FC<IRowData> = ({ point }) => {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
-              <PointsContainer point={point} />
+              <PointsContainer pointId={point.id} />
             </Box>
           </Collapse>
         </TableCell>

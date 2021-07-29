@@ -1,14 +1,34 @@
+import { useQuery } from "@apollo/client";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import React from "react";
-import { GetPlayerDetail_player_points } from "../../../src/gql/client/types/GetPlayerDetail";
+import { getPointQuery } from "../../../src/gql/client/queries";
+import {
+  PointQuery,
+  PointQueryVariables,
+} from "../../../src/gql/client/types/PointQuery";
 import { PointType } from "../../../src/models/enums";
 import { PlayerKillCard } from "./warfare";
 
 interface IProps {
-  point: GetPlayerDetail_player_points;
+  pointId: string;
+  closeModal?: () => void;
 }
 
-const PointsContainer: React.FC<IProps> = ({ point }) => {
-  const { pointType, pointTags } = point;
+const PointsContainer: React.FC<IProps> = ({ pointId, closeModal }) => {
+  const { data, loading, error } = useQuery<PointQuery, PointQueryVariables>(
+    getPointQuery,
+    { variables: { id: pointId } }
+  );
+
+  if (loading) {
+    return <LinearProgress />;
+  }
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
+
+  const { pointType, pointTags } = data.point;
 
   if (pointType === PointType.Warfare) {
     const type = pointTags.find((x) => x.key === "Type");
@@ -18,6 +38,8 @@ const PointsContainer: React.FC<IProps> = ({ point }) => {
       }
     }
   }
+
+  closeModal();
 
   return null;
 };

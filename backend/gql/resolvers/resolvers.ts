@@ -2,6 +2,7 @@ import { getRepository } from "typeorm";
 import { Consents } from "../../../src/db/entities/Consents";
 import { FcmTokens } from "../../../src/db/entities/FcmTokens";
 import { NextauthUsers } from "../../../src/db/entities/NextauthUsers";
+import { Points } from "../../../src/db/entities/Points";
 import { Polls } from "../../../src/db/entities/Polls";
 import { PollVotes } from "../../../src/db/entities/PollVotes";
 import { Sessions } from "../../../src/db/entities/Sessions";
@@ -78,7 +79,6 @@ const resolvers = {
         where: { id: [...opts] },
       });
 
-      console.log(votes);
 
       return votes;
     },
@@ -319,6 +319,21 @@ const resolvers = {
       if (!res.authRequest) return null;
 
       if (minutesBetween(res.authRequest, new Date()) > 5) return null;
+
+      return res;
+    },
+    point: async (_parent, _params, _ctx, _info) => {
+      await dbConnect();
+
+      const repo = getRepository(Points);
+
+      const res = await repo.findOne({
+        where: { id: _params.id },
+        relations: ["pointTags"],
+      });
+
+      if (!res) return null;
+
 
       return res;
     },

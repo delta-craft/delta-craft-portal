@@ -38,10 +38,6 @@ const MyApp = ({ Component, pageProps }) => {
       Sentry.init({
         dsn: process.env.SENTRY_DNS,
         integrations: [new Integrations.BrowserTracing()],
-
-        // Set tracesSampleRate to 1.0 to capture 100%
-        // of transactions for performance monitoring.
-        // We recommend adjusting this value in production
         tracesSampleRate: 1.0,
       });
     } catch (ex) {
@@ -50,7 +46,7 @@ const MyApp = ({ Component, pageProps }) => {
   };
 
   return (
-    <div>
+    <div className="scrollbar-custom">
       <Head>
         <link
           rel="stylesheet"

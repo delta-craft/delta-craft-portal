@@ -62,7 +62,6 @@ const handler = async (
 
   if (endpoint === "is-team-owner" && method === "GET") {
     const uid = query.uuid?.toString();
-
     await isTeamOwner(uid, res);
     return;
   }

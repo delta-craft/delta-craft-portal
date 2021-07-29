@@ -1,32 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
-import Head from "next/head";
 import React from "react";
 import { Layout } from "../../components/layout";
 import { GetServerSideProps, NextApiRequest } from "next";
 import getClientSsr from "../../src/gql/client/client-ssr";
-import { getPlayerDetailsQuery } from "../../src/gql/client/queries";
-import {
-  GetPlayerDetail,
-  GetPlayerDetailVariables,
-  GetPlayerDetail_player,
-} from "../../src/gql/client/types/GetPlayerDetail";
+import { getPlayerDetailsNoPointsQuery } from "../../src/gql/client/queries";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { TotalPoints } from "../../components/teams/team-member";
 import { MetaHead } from "../../components/meta-head";
 import { PlayerStatChart } from "../../components/stat-chart";
-import { PointsTable } from "../../components/player";
+import { PointsTable, PointsTableContainer } from "../../components/player";
 import Link from "next/link";
 import twemoji from "twemoji";
 import Image from "next/image";
+import {
+  GetPlayerDetailNoPoints,
+  GetPlayerDetailNoPointsVariables,
+  GetPlayerDetailNoPoints_player,
+} from "../../src/gql/client/types/GetPlayerDetailNoPoints";
 
 interface IProps {
   nick: string;
-  player: GetPlayerDetail_player;
+  player: GetPlayerDetailNoPoints_player;
 }
 
 const Page: React.FC<IProps> = ({ nick, player }) => {
-  const { name, id, team, points } = player;
+  const { name, id, team } = player;
   const majorTeam = team?.majorTeam;
 
   const icon =
@@ -91,7 +90,7 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
           <Typography variant="h6" className="my-2">
             Získané body
           </Typography>
-          <PointsTable points={points} />
+          <PointsTableContainer nick={nick} />
         </Paper>
       </div>
     </Layout>
@@ -106,8 +105,11 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (
   const nick = context.query.id.toString();
   const client = await getClientSsr(context.req as unknown as NextApiRequest);
 
-  const res = await client.query<GetPlayerDetail, GetPlayerDetailVariables>({
-    query: getPlayerDetailsQuery,
+  const res = await client.query<
+    GetPlayerDetailNoPoints,
+    GetPlayerDetailNoPointsVariables
+  >({
+    query: getPlayerDetailsNoPointsQuery,
     variables: { nick },
   });
 

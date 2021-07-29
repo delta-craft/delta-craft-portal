@@ -22,7 +22,6 @@ const Page: React.FC = () => {
     const r = await resolveMessage(message.trim());
     setSending(false);
     setRes(r);
-    console.log(r);
   };
 
   return (

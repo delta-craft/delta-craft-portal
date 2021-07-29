@@ -127,6 +127,7 @@ const typeDefs = gql`
     consents: [Consent]
     poll(id: ID!): Poll
     userPollVotes(id: ID!): [PollVotes]
+    point(id: ID!): Point
   }
 
   type Mutation {
