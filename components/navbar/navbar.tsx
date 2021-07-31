@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signOut, signIn } from "next-auth/client";
 import Link from "next/link";
 import classnames from "classnames";
@@ -19,11 +19,31 @@ import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 import { useAppContext } from "../../src/hooks";
 import Tooltip from "@material-ui/core/Tooltip";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Fade from "@material-ui/core/Fade";
 
 const Navbar: React.FC = () => {
   const router = useRouter();
   const indx =
     router.pathname === "/teams" ? 0 : router.pathname === "/players" ? 1 : 100;
+
+  const [isRouting, setIsRouting] = useState(false);
+
+  const handleRoutingEnd = () => {
+    setIsRouting(false);
+  };
+  const handleRoutingStart = () => {
+    setIsRouting(true);
+  };
+
+  useEffect(() => {
+    router.events.on("routeChangeStart", handleRoutingStart);
+    router.events.on("routeChangeComplete", handleRoutingEnd);
+    return () => {
+      router.events.off("routeChangeStart", handleRoutingStart);
+      router.events.off("routeChangeComplete", handleRoutingEnd);
+    };
+  }, []);
 
   const { session } = useAppContext();
   const [tab, setTab] = useState(indx);
@@ -157,6 +177,9 @@ const Navbar: React.FC = () => {
           </Button>
         )}
       </Toolbar>
+      <Fade in={isRouting}>
+        <LinearProgress className="routing-progress" />
+      </Fade>
     </AppBar>
   );
 };

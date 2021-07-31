@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Layout: React.FC = ({ children }) => {
   const classes = useStyles(theme);
+
   return (
     <div className={classNames(styles.main, classes.main)}>
       <Navbar />
