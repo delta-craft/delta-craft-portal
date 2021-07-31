@@ -30,8 +30,8 @@ const NicknameCard: React.FC = () => {
   );
 
   useEffect(() => {
-    if (data && data.getUser) {
-      const name = data.getUser.userConnections[0]?.name;
+    if (data && data.user) {
+      const name = data.user.userConnection.name;
       if (name) setNick(name);
     }
   }, [data]);
@@ -70,11 +70,11 @@ const NicknameCard: React.FC = () => {
     );
   }
 
-  const { getUser } = data;
+  const { user } = data;
 
-  const { userConnections } = getUser;
+  const { userConnection } = user;
 
-  const name = userConnections[0].name;
+  const name = userConnection.name;
 
   return (
     <div>

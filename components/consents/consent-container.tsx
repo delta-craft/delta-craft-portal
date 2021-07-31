@@ -32,7 +32,7 @@ const ConsentContainer: React.FC = () => {
 
   if (error) return null;
 
-  const { consents, getUser } = data;
+  const { consents, user } = data;
 
   return (
     <div className="my-3">
@@ -41,7 +41,7 @@ const ConsentContainer: React.FC = () => {
           <ConsentReminderBox
             onUpdate={refetch}
             lastConsent={consents[0]?.created}
-            lastConsentAccepted={getUser?.userConnections[0]?.consent}
+            lastConsentAccepted={user?.userConnection?.consent}
           />
         </div>
       )}
@@ -50,7 +50,7 @@ const ConsentContainer: React.FC = () => {
           index={i}
           key={x.id}
           consent={x}
-          lastConsentAccepted={getUser?.userConnections[0]?.consent}
+          lastConsentAccepted={user?.userConnection?.consent}
         />
       ))}
     </div>

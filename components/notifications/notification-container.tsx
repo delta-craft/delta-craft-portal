@@ -32,9 +32,9 @@ const NotificationContainer: React.FC = ({ children }) => {
 
         const { data, errors } = res;
         if (errors || !data || !data.updateFcmToken) {
-          toast.error("Chyba při registraci notifikací");
+          //toast.error("Chyba při registraci notifikací");
         }
-        if (data.updateFcmToken) {
+        if (data?.updateFcmToken) {
           initHandlers();
         }
       } else {

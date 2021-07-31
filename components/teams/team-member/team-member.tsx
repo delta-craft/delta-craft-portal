@@ -5,12 +5,12 @@ import Typography from "@material-ui/core/Typography";
 import Link from "next/link";
 import React from "react";
 import { TotalPoints } from ".";
-import { GetTeam_getTeam_userConnections } from "../../../src/gql/client/types/GetTeam";
+import { GetTeam_team_userConnections } from "../../../src/gql/client/types/GetTeam";
 import { PlayerStatChart } from "../../stat-chart";
 import Image from "next/image";
 
 interface IProps {
-  userConnection: GetTeam_getTeam_userConnections;
+  userConnection: GetTeam_team_userConnections;
 }
 
 const TeamMember: React.FC<IProps> = ({ userConnection }) => {
@@ -40,11 +40,11 @@ const TeamMember: React.FC<IProps> = ({ userConnection }) => {
                 {name}
               </Typography>
             </Link>
-            <TotalPoints ucId={userConnection.id} />
+            <TotalPoints nick={name} />
           </div>
         </div>
         <Divider className="my-3" />
-        <PlayerStatChart userConnectionId={userConnection.id} />
+        <PlayerStatChart nick={name} />
       </div>
     </Paper>
   );

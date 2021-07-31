@@ -11,14 +11,11 @@ import { Layout } from "../../components/layout";
 import { TeamsCard } from "../../components/teams/teams-card";
 import getClientSsr from "../../src/gql/client/client-ssr";
 import { getTeamsQuery } from "../../src/gql/client/queries";
-import {
-  GetTeams,
-  GetTeams_getTeams,
-} from "../../src/gql/client/types/GetTeams";
+import { GetTeams, GetTeams_teams } from "../../src/gql/client/types/GetTeams";
 import { MajorTeam } from "../../src/models/enums";
 
 interface IProps {
-  teams: GetTeams_getTeams[];
+  teams: GetTeams_teams[];
 }
 
 const Page: React.FC<IProps> = ({ teams }) => {
@@ -41,7 +38,7 @@ const Page: React.FC<IProps> = ({ teams }) => {
           value={tab}
           onChange={handleChange}
           variant="fullWidth"
-          aria-label="disabled tabs example"
+          aria-label=""
         >
           <Tab label="Blue" />
           <Tab label="Red" />
@@ -50,7 +47,7 @@ const Page: React.FC<IProps> = ({ teams }) => {
           <div className="container py-4">
             <div className="row">
               {blueTeam.map((x, i) => (
-                <div className="col-12 col-md-6" key={i}>
+                <div className="col-12 col-md-6 my-2" key={i}>
                   <TeamsCard team={x} />
                 </div>
               ))}
@@ -61,7 +58,7 @@ const Page: React.FC<IProps> = ({ teams }) => {
           <div className="container py-4">
             <div className="row">
               {redTeam.map((x, i) => (
-                <div className="col-12 col-md-6" key={i}>
+                <div className="col-12 col-md-6 my-2" key={i}>
                   <TeamsCard team={x} />
                 </div>
               ))}
@@ -87,7 +84,7 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (
     return { notFound: true };
   }
 
-  const { getTeams: teams } = res.data;
+  const { teams } = res.data;
 
   return { props: { teams } };
 };

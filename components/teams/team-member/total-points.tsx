@@ -8,7 +8,7 @@ import {
 } from "../../../src/gql/client/types/PlayerPointSummary";
 
 interface IProps {
-  ucId: string;
+  nick: string;
   className?: string;
   variant?:
     | "button"
@@ -28,7 +28,7 @@ interface IProps {
 }
 
 const TotalPoint: React.FC<IProps> = ({
-  ucId,
+  nick,
   variant = "body2",
   className,
 }) => {
@@ -36,14 +36,18 @@ const TotalPoint: React.FC<IProps> = ({
     PlayerPointSummary,
     PlayerPointSummaryVariables
   >(getPlayerPointSummaryQuery, {
-    variables: { ucId },
+    variables: { nick },
   });
 
   if (loading) return <Typography variant="body2">Počítám...</Typography>;
 
-  if (error || !data.getPlayerPointSummary) return null;
+  if (error || !data.player) return null;
 
-  const { summary } = data.getPlayerPointSummary;
+  const { player } = data;
+
+  const { pointSummary } = player;
+
+  const { summary } = pointSummary;
 
   const { mining, crafting, warfare, journey } = summary;
 

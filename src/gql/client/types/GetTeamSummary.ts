@@ -7,7 +7,7 @@
 // GraphQL query operation: GetTeamSummary
 // ====================================================
 
-export interface GetTeamSummary_getTeamPointSummary_summary {
+export interface GetTeamSummary_team_pointSummary_summary {
   __typename: "PointSummary";
   crafting: number | null;
   mining: number | null;
@@ -15,7 +15,7 @@ export interface GetTeamSummary_getTeamPointSummary_summary {
   journey: number | null;
 }
 
-export interface GetTeamSummary_getTeamPointSummary_ratios {
+export interface GetTeamSummary_team_pointSummary_ratios {
   __typename: "PointSummary";
   crafting: number | null;
   mining: number | null;
@@ -23,14 +23,20 @@ export interface GetTeamSummary_getTeamPointSummary_ratios {
   journey: number | null;
 }
 
-export interface GetTeamSummary_getTeamPointSummary {
+export interface GetTeamSummary_team_pointSummary {
   __typename: "PointSummaryWrapper";
-  summary: GetTeamSummary_getTeamPointSummary_summary | null;
-  ratios: GetTeamSummary_getTeamPointSummary_ratios | null;
+  summary: GetTeamSummary_team_pointSummary_summary | null;
+  ratios: GetTeamSummary_team_pointSummary_ratios | null;
+}
+
+export interface GetTeamSummary_team {
+  __typename: "Team";
+  id: string | null;
+  pointSummary: GetTeamSummary_team_pointSummary | null;
 }
 
 export interface GetTeamSummary {
-  getTeamPointSummary: GetTeamSummary_getTeamPointSummary | null;
+  team: GetTeamSummary_team | null;
 }
 
 export interface GetTeamSummaryVariables {

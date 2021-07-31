@@ -53,7 +53,7 @@ const PlayerKillCard: React.FC<IProps> = ({ tags }) => {
         <div className="d-flex flex-row justify-content-center align-items-center my-4">
           <div className="lightbox mx-3">
             <Image
-              src={`/api/embed/dynmap-player-kill/${t.World}/${t.X}/${t.Y}/${t.Z}`}
+              src={`/embed/dynmap/${t.World}/${t.X}/${t.Y}/${t.Z}`}
               width={1920 / 4}
               height={1080 / 4}
               alt=""

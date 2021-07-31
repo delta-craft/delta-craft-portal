@@ -3,12 +3,12 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Link from "next/link";
 import React from "react";
-import { GetTeams_getTeams } from "../../../src/gql/client/types/GetTeams";
+import { GetTeams_teams } from "../../../src/gql/client/types/GetTeams";
 import Member from "./member";
 import TeamStatDisplay from "./team-stat-display";
 
 interface IProps {
-  team: GetTeams_getTeams;
+  team: GetTeams_teams;
 }
 
 const TeamsCard: React.FC<IProps> = ({ team }) => {

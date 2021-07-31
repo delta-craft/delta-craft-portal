@@ -1,17 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import Head from "next/head";
 import React from "react";
 import { Layout } from "../../components/layout";
 import { GetServerSideProps, NextApiRequest } from "next";
 import {
   GetTeam,
   GetTeamVariables,
-  GetTeam_getTeam,
+  GetTeam_team,
 } from "../../src/gql/client/types/GetTeam";
 import { getTeamQuery } from "../../src/gql/client/queries";
-import { StatChart } from "../../components/stat-chart";
 import getClientSsr from "../../src/gql/client/client-ssr";
-import Divider from "@material-ui/core/Divider";
 import { TeamStatDisplay } from "../../components/teams/teams-card";
 import { TeamMember } from "../../components/teams/team-member";
 import Typography from "@material-ui/core/Typography";
@@ -22,7 +19,7 @@ const emojify = (text: string) => twemoji.parse(text, twOptions);
 
 interface IProps {
   id: string;
-  team: GetTeam_getTeam;
+  team: GetTeam_team;
 }
 
 const Page: React.FC<IProps> = ({ team }) => {
@@ -35,7 +32,7 @@ const Page: React.FC<IProps> = ({ team }) => {
     <Layout>
       <MetaHead
         title={`Tým ${name} | Portal - DeltaCraft`}
-        image={`https://portal.deltacraft.eu/api/embed/team/${id}`}
+        image={`https://cdn.deltacraft.eu/embed/team/${id}`}
         width="2048"
         height="1170"
       />
@@ -83,11 +80,11 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (
     variables: { id },
   });
 
-  if (res.errors || !res.data || !res.data.getTeam) {
+  if (res.errors || !res.data || !res.data.team) {
     return { notFound: true };
   }
 
-  const { getTeam: team } = res.data;
+  const { team } = res.data;
 
   return { props: { id, team } };
 };

@@ -7,18 +7,18 @@
 // GraphQL query operation: GetNickname
 // ====================================================
 
-export interface GetNickname_getUser_userConnections {
+export interface GetNickname_user_userConnection {
   __typename: "UserConnections";
   id: string | null;
   name: string | null;
 }
 
-export interface GetNickname_getUser {
+export interface GetNickname_user {
   __typename: "User";
   id: string | null;
-  userConnections: (GetNickname_getUser_userConnections | null)[] | null;
+  userConnection: GetNickname_user_userConnection | null;
 }
 
 export interface GetNickname {
-  getUser: GetNickname_getUser | null;
+  user: GetNickname_user | null;
 }

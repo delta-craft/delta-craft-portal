@@ -2,11 +2,11 @@
 import Typography from "@material-ui/core/Typography";
 import Link from "next/link";
 import React from "react";
-import { GetTeams_getTeams_userConnections } from "../../../src/gql/client/types/GetTeams";
+import { GetTeams_teams_userConnections } from "../../../src/gql/client/types/GetTeams";
 import Image from "next/image";
 
 interface IProps {
-  userConn: GetTeams_getTeams_userConnections;
+  userConn: GetTeams_teams_userConnections;
 }
 
 const Member: React.FC<IProps> = ({ userConn }) => {

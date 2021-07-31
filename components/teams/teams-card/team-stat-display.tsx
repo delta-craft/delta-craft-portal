@@ -19,11 +19,12 @@ const TeamStatDisplay: React.FC<IProps> = ({ teamId }) => {
   >(getTeamPointSummaryQuery, { variables: { teamId } });
 
   if (loading) return <LinearProgress />;
-  if (error || !data.getTeamPointSummary) return null;
+  if (error || !data.team) return null;
 
-  const { getTeamPointSummary } = data;
+  const { team } = data;
 
-  const { summary, ratios } = getTeamPointSummary;
+  const { pointSummary } = team;
+  const { summary, ratios } = pointSummary;
 
   if (
     ratios.crafting === 0 &&

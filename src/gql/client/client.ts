@@ -14,7 +14,7 @@ import endpoint from "../../utils/endpoints";
 // };
 
 const httpLink = createHttpLink({
-  uri: "/api/graphql",
+  uri: `${endpoint}/graphql`,
 });
 
 const authLink = setContext((req, { headers }) => {

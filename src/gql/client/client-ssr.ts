@@ -7,7 +7,7 @@ import { getSession } from "next-auth/client";
 import { verifyToken } from "../utils/user-auth";
 
 const httpLink = createHttpLink({
-  uri: `${endpoint}/api/graphql`,
+  uri: `${endpoint}/graphql`,
 });
 
 const secret = process.env.NEXTAUTH_SECRET;

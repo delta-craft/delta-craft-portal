@@ -34,7 +34,7 @@ const columns: GridColDef[] = [
     // eslint-disable-next-line react/display-name
     renderCell: (params: GridValueGetterParams) => {
       const a = params.getValue(params.id, "created").toString();
-      return <>{moment(+a).format("DD.MM.YYYY HH:mm")}</>;
+      return <>{moment(a).format("DD.MM.YYYY HH:mm")}</>;
     },
   },
   {

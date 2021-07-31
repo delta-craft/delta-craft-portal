@@ -9,6 +9,7 @@ import {
   GetPlayers,
   GetPlayers_players,
 } from "../../src/gql/client/types/GetPlayers";
+import { totalPoints } from "../../src/utils/point-ratio";
 
 interface IProps {
   players: GetPlayers_players[];
@@ -22,11 +23,19 @@ const Page: React.FC<IProps> = ({ players }) => (
 
     <div className="container py-5">
       <div className="row">
-        {players.map((x, i) => (
-          <div className="col-12 col-md-4" key={i}>
-            <PlayerCard player={x} index={i} />
-          </div>
-        ))}
+        {players
+          .slice()
+          .sort((a, b) =>
+            totalPoints(a.pointSummary.summary) >
+            totalPoints(b.pointSummary.summary)
+              ? -1
+              : 1
+          )
+          .map((x, i) => (
+            <div className="col-12 col-md-4" key={i}>
+              <PlayerCard player={x} index={i} />
+            </div>
+          ))}
       </div>
     </div>
   </Layout>

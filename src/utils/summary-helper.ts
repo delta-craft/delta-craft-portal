@@ -1,8 +1,8 @@
-import { Teams } from "../../src/db/entities/Teams";
-import { UserConnections } from "../../src/db/entities/UserConnections";
-import { PointType } from "../../src/models/enums";
-import { IPointSummary } from "../../src/models/types";
-import { calculateRatios } from "../../src/utils/point-ratio";
+import { Teams } from "../db/entities/Teams";
+import { UserConnections } from "../db/entities/UserConnections";
+import { PointType } from "../models/enums";
+import { IPointSummary } from "../models/types";
+import { calculateRatios } from "./point-ratio";
 
 export const calcPlayerSummary = (userConn: UserConnections) => {
   const { points } = userConn;

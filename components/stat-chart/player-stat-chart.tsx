@@ -9,7 +9,7 @@ import {
 } from "../../src/gql/client/types/PlayerPointSummary";
 
 interface IProps {
-  userConnectionId: string;
+  nick: string;
   height?: number | string;
   width?: number | string;
   fontSize?: number;
@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const PlayerStatChart: React.FC<IProps> = ({
-  userConnectionId,
+  nick,
   height,
   width,
   legendPosition = "top",
@@ -26,18 +26,20 @@ const PlayerStatChart: React.FC<IProps> = ({
   const { data, loading, error } = useQuery<
     PlayerPointSummary,
     PlayerPointSummaryVariables
-  >(getPlayerPointSummaryQuery, { variables: { ucId: userConnectionId } });
+  >(getPlayerPointSummaryQuery, { variables: { nick } });
 
   if (loading) {
     return <CircularProgress />;
   }
-  if (error || !data.getPlayerPointSummary) return null;
+  if (error || !data.player) return null;
 
-  const { getPlayerPointSummary } = data;
+  const { player } = data;
+
+  const { pointSummary } = player;
 
   return (
     <StatChart
-      points={getPlayerPointSummary.summary}
+      points={pointSummary.summary}
       height={height}
       width={width}
       legendPosition={legendPosition}

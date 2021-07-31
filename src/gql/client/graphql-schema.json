@@ -12,7 +12,7 @@
       {
         "kind": "SCALAR",
         "name": "Date",
-        "description": "Date custom scalar type",
+        "description": null,
         "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
@@ -23,7 +23,7 @@
       {
         "kind": "SCALAR",
         "name": "PointType",
-        "description": "Point type custom scalar type",
+        "description": null,
         "specifiedByUrl": null,
         "fields": null,
         "inputFields": null,
@@ -410,17 +410,13 @@
             "deprecationReason": null
           },
           {
-            "name": "userConnections",
+            "name": "userConnection",
             "description": null,
             "args": [],
             "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "UserConnections",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "UserConnections",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -704,6 +700,18 @@
                 "name": "UserConnections",
                 "ofType": null
               }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "pointSummary",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "PointSummaryWrapper",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1037,19 +1045,7 @@
         "specifiedByUrl": null,
         "fields": [
           {
-            "name": "test",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "getUsers",
+            "name": "userConnections",
             "description": null,
             "args": [],
             "type": {
@@ -1057,7 +1053,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "User",
+                "name": "UserConnections",
                 "ofType": null
               }
             },
@@ -1065,7 +1061,7 @@
             "deprecationReason": null
           },
           {
-            "name": "getUser",
+            "name": "user",
             "description": null,
             "args": [],
             "type": {
@@ -1122,7 +1118,7 @@
             "deprecationReason": null
           },
           {
-            "name": "getTeams",
+            "name": "teams",
             "description": null,
             "args": [],
             "type": {
@@ -1138,7 +1134,7 @@
             "deprecationReason": null
           },
           {
-            "name": "getTeam",
+            "name": "team",
             "description": null,
             "args": [
               {
@@ -1167,65 +1163,7 @@
             "deprecationReason": null
           },
           {
-            "name": "getPlayerPointSummary",
-            "description": null,
-            "args": [
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "PointSummaryWrapper",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "getTeamPointSummary",
-            "description": null,
-            "args": [
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "PointSummaryWrapper",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "getMajorTeamsSummary",
+            "name": "majorTeamsSummary",
             "description": null,
             "args": [],
             "type": {
@@ -1289,39 +1227,6 @@
               "kind": "OBJECT",
               "name": "Poll",
               "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "userPollVotes",
-            "description": null,
-            "args": [
-              {
-                "name": "id",
-                "description": null,
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "PollVotes",
-                "ofType": null
-              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -1404,21 +1309,13 @@
                 "name": "name",
                 "description": null,
                 "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "colour",
-                "description": null,
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
                 },
                 "defaultValue": null,
                 "isDeprecated": false,
@@ -1593,41 +1490,6 @@
         ],
         "inputFields": null,
         "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
-        "name": "CacheControlScope",
-        "description": null,
-        "specifiedByUrl": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "PUBLIC",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PRIVATE",
-            "description": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Upload",
-        "description": "The `Upload` scalar type represents a file upload.",
-        "specifiedByUrl": null,
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },
@@ -2535,42 +2397,6 @@
       }
     ],
     "directives": [
-      {
-        "name": "cacheControl",
-        "description": null,
-        "isRepeatable": false,
-        "locations": [
-          "FIELD_DEFINITION",
-          "OBJECT",
-          "INTERFACE"
-        ],
-        "args": [
-          {
-            "name": "maxAge",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "scope",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "CacheControlScope",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ]
-      },
       {
         "name": "include",
         "description": "Directs the executor to include this field or fragment only when the `if` argument is true.",

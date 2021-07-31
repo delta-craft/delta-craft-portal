@@ -12,9 +12,9 @@ const MainTeamsBar: React.FC = () => {
     return <LinearProgress />;
   }
 
-  if (error || !data.getMajorTeamsSummary) return null;
+  if (error || !data.majorTeamsSummary) return null;
 
-  const { blue, red } = data.getMajorTeamsSummary;
+  const { blue, red } = data.majorTeamsSummary;
 
   const {
     crafting: craftingB,

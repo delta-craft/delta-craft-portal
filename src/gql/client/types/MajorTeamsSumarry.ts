@@ -7,7 +7,7 @@
 // GraphQL query operation: MajorTeamsSumarry
 // ====================================================
 
-export interface MajorTeamsSumarry_getMajorTeamsSummary_blue_summary {
+export interface MajorTeamsSumarry_majorTeamsSummary_blue_summary {
   __typename: "PointSummary";
   crafting: number | null;
   mining: number | null;
@@ -15,12 +15,12 @@ export interface MajorTeamsSumarry_getMajorTeamsSummary_blue_summary {
   journey: number | null;
 }
 
-export interface MajorTeamsSumarry_getMajorTeamsSummary_blue {
+export interface MajorTeamsSumarry_majorTeamsSummary_blue {
   __typename: "PointSummaryWrapper";
-  summary: MajorTeamsSumarry_getMajorTeamsSummary_blue_summary | null;
+  summary: MajorTeamsSumarry_majorTeamsSummary_blue_summary | null;
 }
 
-export interface MajorTeamsSumarry_getMajorTeamsSummary_red_summary {
+export interface MajorTeamsSumarry_majorTeamsSummary_red_summary {
   __typename: "PointSummary";
   crafting: number | null;
   mining: number | null;
@@ -28,17 +28,17 @@ export interface MajorTeamsSumarry_getMajorTeamsSummary_red_summary {
   journey: number | null;
 }
 
-export interface MajorTeamsSumarry_getMajorTeamsSummary_red {
+export interface MajorTeamsSumarry_majorTeamsSummary_red {
   __typename: "PointSummaryWrapper";
-  summary: MajorTeamsSumarry_getMajorTeamsSummary_red_summary | null;
+  summary: MajorTeamsSumarry_majorTeamsSummary_red_summary | null;
 }
 
-export interface MajorTeamsSumarry_getMajorTeamsSummary {
+export interface MajorTeamsSumarry_majorTeamsSummary {
   __typename: "PointSummaryMajor";
-  blue: MajorTeamsSumarry_getMajorTeamsSummary_blue | null;
-  red: MajorTeamsSumarry_getMajorTeamsSummary_red | null;
+  blue: MajorTeamsSumarry_majorTeamsSummary_blue | null;
+  red: MajorTeamsSumarry_majorTeamsSummary_red | null;
 }
 
 export interface MajorTeamsSumarry {
-  getMajorTeamsSummary: MajorTeamsSumarry_getMajorTeamsSummary | null;
+  majorTeamsSummary: MajorTeamsSumarry_majorTeamsSummary | null;
 }

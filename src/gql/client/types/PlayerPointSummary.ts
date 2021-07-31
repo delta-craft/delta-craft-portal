@@ -7,7 +7,7 @@
 // GraphQL query operation: PlayerPointSummary
 // ====================================================
 
-export interface PlayerPointSummary_getPlayerPointSummary_summary {
+export interface PlayerPointSummary_player_pointSummary_summary {
   __typename: "PointSummary";
   crafting: number | null;
   mining: number | null;
@@ -15,15 +15,21 @@ export interface PlayerPointSummary_getPlayerPointSummary_summary {
   warfare: number | null;
 }
 
-export interface PlayerPointSummary_getPlayerPointSummary {
+export interface PlayerPointSummary_player_pointSummary {
   __typename: "PointSummaryWrapper";
-  summary: PlayerPointSummary_getPlayerPointSummary_summary | null;
+  summary: PlayerPointSummary_player_pointSummary_summary | null;
+}
+
+export interface PlayerPointSummary_player {
+  __typename: "UserConnections";
+  id: string | null;
+  pointSummary: PlayerPointSummary_player_pointSummary | null;
 }
 
 export interface PlayerPointSummary {
-  getPlayerPointSummary: PlayerPointSummary_getPlayerPointSummary | null;
+  player: PlayerPointSummary_player | null;
 }
 
 export interface PlayerPointSummaryVariables {
-  ucId: string;
+  nick: string;
 }

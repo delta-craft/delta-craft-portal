@@ -9,7 +9,7 @@ module.exports = withPWA({
   },
   reactStrictMode: true,
   images: {
-    domains: ['minotar.net'],
+    domains: ['minotar.net', 'cdn.deltacraft.eu'],
   },
 })
 

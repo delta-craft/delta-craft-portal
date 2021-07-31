@@ -15,19 +15,19 @@ export interface GetConsents_consents {
   content: string | null;
 }
 
-export interface GetConsents_getUser_userConnections {
+export interface GetConsents_user_userConnection {
   __typename: "UserConnections";
   id: string | null;
   consent: any | null;
 }
 
-export interface GetConsents_getUser {
+export interface GetConsents_user {
   __typename: "User";
   id: string | null;
-  userConnections: (GetConsents_getUser_userConnections | null)[] | null;
+  userConnection: GetConsents_user_userConnection | null;
 }
 
 export interface GetConsents {
   consents: (GetConsents_consents | null)[] | null;
-  getUser: GetConsents_getUser | null;
+  user: GetConsents_user | null;
 }

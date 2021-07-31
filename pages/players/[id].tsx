@@ -9,7 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import { TotalPoints } from "../../components/teams/team-member";
 import { MetaHead } from "../../components/meta-head";
 import { PlayerStatChart } from "../../components/stat-chart";
-import { PointsTable, PointsTableContainer } from "../../components/player";
+import { PointsTableContainer } from "../../components/player";
 import Link from "next/link";
 import twemoji from "twemoji";
 import Image from "next/image";
@@ -35,7 +35,7 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
     <Layout>
       <MetaHead
         title={`${name} - Detail hráče - DeltaCraft`}
-        image={`https://portal.deltacraft.eu/api/embed/player/${name}`}
+        image={`https://cdn.deltacraft.eu/embed/player/${name}`}
         width="2048"
         height="1170"
       />
@@ -56,7 +56,7 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
             /> */}
             <div className="d-flex flex-column justify-content-center align-items-center px-3">
               <Typography variant="h4">{name}</Typography>
-              <TotalPoints ucId={id} variant="body1" className="my-2" />
+              <TotalPoints nick={name} variant="body1" className="my-2" />
               <Link href={`/teams/${team?.id}`} passHref>
                 <Typography variant="body1" className="pointer">
                   {majorTeam && (
@@ -77,7 +77,7 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
           <div className="d-flex justify-content-center ">
             <div className="player-detail-chart">
               <PlayerStatChart
-                userConnectionId={id}
+                nick={name}
                 height={350}
                 width={"100%"}
                 legendPosition="right"

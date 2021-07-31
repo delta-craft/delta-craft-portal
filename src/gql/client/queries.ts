@@ -2,7 +2,7 @@ import { gql } from "apollo-boost";
 
 export const getTeamQuery = gql`
   query GetTeam($id: ID!) {
-    getTeam(id: $id) {
+    team(id: $id) {
       id
       teamColourHex
       name
@@ -21,7 +21,7 @@ export const getTeamQuery = gql`
 
 export const getTeamsQuery = gql`
   query GetTeams {
-    getTeams {
+    teams {
       id
       name
       teamColourHex
@@ -40,9 +40,9 @@ export const getTeamsQuery = gql`
 
 export const getNicknameQuery = gql`
   query GetNickname {
-    getUser {
+    user {
       id
-      userConnections {
+      userConnection {
         id
         name
       }
@@ -58,9 +58,9 @@ export const getConsentsQuery = gql`
       created
       content
     }
-    getUser {
+    user {
       id
-      userConnections {
+      userConnection {
         id
         consent
       }
@@ -70,31 +70,37 @@ export const getConsentsQuery = gql`
 
 export const getTeamPointSummaryQuery = gql`
   query GetTeamSummary($teamId: ID!) {
-    getTeamPointSummary(id: $teamId) {
-      summary {
-        crafting
-        mining
-        warfare
-        journey
-      }
-      ratios {
-        crafting
-        mining
-        warfare
-        journey
+    team(id: $teamId) {
+      id
+      pointSummary {
+        summary {
+          crafting
+          mining
+          warfare
+          journey
+        }
+        ratios {
+          crafting
+          mining
+          warfare
+          journey
+        }
       }
     }
   }
 `;
 
 export const getPlayerPointSummaryQuery = gql`
-  query PlayerPointSummary($ucId: ID!) {
-    getPlayerPointSummary(id: $ucId) {
-      summary {
-        crafting
-        mining
-        journey
-        warfare
+  query PlayerPointSummary($nick: String!) {
+    player(nickname: $nick) {
+      id
+      pointSummary {
+        summary {
+          crafting
+          mining
+          journey
+          warfare
+        }
       }
     }
   }
@@ -102,7 +108,7 @@ export const getPlayerPointSummaryQuery = gql`
 
 export const getMajorTeamsSummary = gql`
   query MajorTeamsSumarry {
-    getMajorTeamsSummary {
+    majorTeamsSummary {
       blue {
         summary {
           crafting
