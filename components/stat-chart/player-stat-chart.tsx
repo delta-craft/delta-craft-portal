@@ -29,7 +29,11 @@ const PlayerStatChart: React.FC<IProps> = ({
   >(getPlayerPointSummaryQuery, { variables: { nick } });
 
   if (loading) {
-    return <CircularProgress />;
+    return (
+      <div className="d-flex justify-content-center align-items-center">
+        <CircularProgress />
+      </div>
+    );
   }
   if (error || !data.player) return null;
 

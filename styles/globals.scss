@@ -126,7 +126,7 @@ body {
 }
 
 .routing-progress {
-  background: $dark-bkg;
+  background: $dark-bkg !important;
   & > span {
     background: $light-bkg !important;
   }

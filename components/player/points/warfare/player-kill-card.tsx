@@ -15,7 +15,7 @@ const PlayerKillCard: React.FC<IProps> = ({ tags }) => {
   const t = Object.fromEntries(tags.map((x) => [x.key, x.value]));
 
   return (
-    <Paper className="p-4">
+    <Paper className="p-md-4">
       <div className="d-flex flex-row justify-content-center align-items-center">
         <div className="d-flex flex-column justify-content-center align-items-center mx-5">
           <Image

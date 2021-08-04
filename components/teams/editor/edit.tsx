@@ -33,12 +33,6 @@ const EditTeam: React.FC = () => {
     }
   }, [session]);
 
-  useEffect(() => {
-    if (teamName.length > 0) {
-      setTeamName(teamName.trim());
-    }
-  }, [teamName]);
-
   const max = 20;
 
   const count = teamName.length;
@@ -46,7 +40,7 @@ const EditTeam: React.FC = () => {
   const handleClick = async () => {
     if (count > max || count === 0) return;
 
-    const res = await update({ variables: { teamName } });
+    const res = await update({ variables: { teamName: teamName.trim() } });
 
     const { data, errors } = res;
 

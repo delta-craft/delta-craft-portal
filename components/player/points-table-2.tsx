@@ -10,10 +10,11 @@ import { PointsModal } from "./points";
 import { PointType } from "../../src/models/enums";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 150 },
+  { field: "id", headerName: "ID", type: "number", width: 150 },
   {
     field: "points",
     headerName: "Počet bodů",
+    type: "number",
     width: 200,
   },
   {
@@ -91,12 +92,13 @@ const PointsTable: React.FC<IProps> = ({ points }) => {
   });
 
   return (
-    <div style={{ height: 1000, width: "100%" }}>
+    <div style={{ height: 600, width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={50}
+        pageSize={25}
         disableSelectionOnClick
+        rowsPerPageOptions={[25, 50, 100, 200]}
       />
     </div>
   );
