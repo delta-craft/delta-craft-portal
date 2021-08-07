@@ -5,8 +5,10 @@ import { getMajorTeamsSummary } from "../../src/gql/client/queries";
 import { MajorTeamsSumarry } from "../../src/gql/client/types/MajorTeamsSumarry";
 
 const MainTeamsBar: React.FC = () => {
-  const { data, loading, error } =
-    useQuery<MajorTeamsSumarry>(getMajorTeamsSummary);
+  const { data, loading, error } = useQuery<MajorTeamsSumarry>(
+    getMajorTeamsSummary,
+    { pollInterval: 3000 }
+  );
 
   if (loading) {
     return <LinearProgress />;

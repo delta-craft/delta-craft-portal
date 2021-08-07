@@ -19,8 +19,10 @@ const LoginContainer: React.FC = () => {
     await refetch();
   };
 
-  const { data, loading, error, refetch } =
-    useQuery<GetLoginSession>(getLoginQuery);
+  const { data, loading, error, refetch } = useQuery<GetLoginSession>(
+    getLoginQuery,
+    { pollInterval: 5000 }
+  );
 
   if (loading) {
     return (
