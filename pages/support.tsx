@@ -25,7 +25,7 @@ const Page: React.FC = () => {
                 Založ issue na GitHubu
               </Typography>
               <Link href="https://github.com/delta-craft/issue-tracker/issues">
-                <a target="_blank">
+                <a target="_blank" rel="noopener">
                   <Button variant="outlined">GitHub Issues</Button>
                 </a>
               </Link>
