@@ -26,6 +26,7 @@ export const getTeamsQuery = gql`
       name
       teamColourHex
       majorTeam
+      ownerConnId
       userConnections {
         id
         name

@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const TeamsCard: React.FC<IProps> = ({ team }) => {
-  const { name, userConnections, id } = team;
+  const { name, userConnections, id, ownerConnId } = team;
   return (
     <Paper className="px-1 py-4">
       <div className="text-center">
@@ -23,7 +23,7 @@ const TeamsCard: React.FC<IProps> = ({ team }) => {
         <div className="d-flex justify-content-center flex-wrap my-3">
           {userConnections.map((x, i) => (
             <div className="px-2" key={i}>
-              <Member userConn={x} />
+              <Member userConn={x} ownerId={ownerConnId} />
             </div>
           ))}
         </div>
