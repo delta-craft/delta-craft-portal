@@ -5,12 +5,19 @@ import React from "react";
 import { GetTeams_teams_userConnections } from "../../../src/gql/client/types/GetTeams";
 import Image from "next/image";
 
+import twemoji from "twemoji";
+
+const twOptions = { folder: "svg", ext: ".svg" };
+const emojify = (text: string) => twemoji.parse(text, twOptions);
+
+
 interface IProps {
-  userConn: GetTeams_teams_userConnections;
+  userConn: GetTeams_teams_userConnections; 
+  ownerId?: string;
 }
 
-const Member: React.FC<IProps> = ({ userConn }) => {
-  const { next, name } = userConn;
+const Member: React.FC<IProps> = ({ userConn, ownerId }) => {
+  const { next, name, id } = userConn;
 
   const link = `/players/${name}`;
 
@@ -31,7 +38,10 @@ const Member: React.FC<IProps> = ({ userConn }) => {
         /> */}
       </Link>
       <Link href={link} passHref>
-        <Typography className="mt-2 pointer">{name}</Typography>
+        <div className="d-flex justify-content-center align-items-baseline">
+          {ownerId==id && <div style={{height:16, width:16, margin:"0 0.3rem 0 0"}} dangerouslySetInnerHTML={{__html : emojify("👑")}}/>}
+          <Typography className="mt-2 pointer">{name}</Typography>
+        </div>
       </Link>
     </div>
   );

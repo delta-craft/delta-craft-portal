@@ -26,6 +26,7 @@ export interface GetTeams_teams {
   name: string | null;
   teamColourHex: string | null;
   majorTeam: string | null;
+  ownerConnId: string | null;
   userConnections: (GetTeams_teams_userConnections | null)[] | null;
 }
 
