@@ -3,6 +3,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import React from "react";
 import { getMajorTeamsSummary } from "../../src/gql/client/queries";
 import { MajorTeamsSumarry } from "../../src/gql/client/types/MajorTeamsSumarry";
+import Typography from "@material-ui/core/Typography";
 
 const MainTeamsBar: React.FC = () => {
   const { data, loading, error } = useQuery<MajorTeamsSumarry>(
@@ -55,6 +56,10 @@ const MainTeamsBar: React.FC = () => {
           role="progressbar"
           style={{ width: `${redPercentage}%` }}
         ></div>
+      </div>
+      <div className="d-flex justify-content-between pt-2">
+        <Typography>{blueTotal} bodů</Typography>
+        <Typography>{redTotal} bodů</Typography>
       </div>
     </div>
   );
