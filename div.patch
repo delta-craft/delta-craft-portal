@@ -1,0 +1,127 @@
+From a48174edd370c8e60d3b3c41018fd0f79ace649e Mon Sep 17 00:00:00 2001
+From: Josef Kahoun <pepa.kahy@gmail.com>
+Date: Wed, 11 Aug 2021 13:17:56 +0200
+Subject: [PATCH] Added external links to index
+
+---
+ components/join-us/index.ts              |  1 +
+ components/join-us/join-us-card.tsx      | 28 +++++++++++++++++++++++
+ components/join-us/join-us-container.tsx | 29 ++++++++++++++++++++++++
+ components/team-bar/index.ts             |  2 +-
+ pages/index.tsx                          |  5 ++++
+ 5 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 components/join-us/index.ts
+ create mode 100644 components/join-us/join-us-card.tsx
+ create mode 100644 components/join-us/join-us-container.tsx
+
+diff --git a/components/join-us/index.ts b/components/join-us/index.ts
+new file mode 100644
+index 0000000..df4cc69
+--- /dev/null
++++ b/components/join-us/index.ts
+@@ -0,0 +1 @@
++export { default as JoinUsContainer } from "./join-us-container";
+\ No newline at end of file
+diff --git a/components/join-us/join-us-card.tsx b/components/join-us/join-us-card.tsx
+new file mode 100644
+index 0000000..ccf48bc
+--- /dev/null
++++ b/components/join-us/join-us-card.tsx
+@@ -0,0 +1,28 @@
++import { Paper } from "@material-ui/core";
++import Link from "next/link";
++import React from "react";
++
++interface IProps {
++  title: string;
++  desc: string;
++  icon?: JSX.Element;
++  link?: string;
++}
++
++const JoinUsCard: React.FC<IProps> = ({ title, desc, icon, link = "" }) => {
++  return (
++    <Link href={link} passHref>
++      <a target="_blank" rel="noopener">
++        <Paper style={{ minHeight: 150 }}>
++          <div className="card-body hover-shadow d-flex flex-column align-items-center">
++            <div className="display-5 text-white">{icon}</div>
++            <h4 className="card-title text-white">{title}</h4>
++            <p className="card-text text-white">{desc}</p>
++          </div>
++        </Paper>
++      </a>
++    </Link>
++  );
++};
++
++export default JoinUsCard;
+\ No newline at end of file
+diff --git a/components/join-us/join-us-container.tsx b/components/join-us/join-us-container.tsx
+new file mode 100644
+index 0000000..3d90a78
+--- /dev/null
++++ b/components/join-us/join-us-container.tsx
+@@ -0,0 +1,29 @@
++import React from "react";
++import JoinUsCard from "./join-us-card";
++
++const JoinUsContainer: React.FC = () => {
++  return (
++    <div>
++      <div className="d-flex justify-content-center pt-4 flex-column align-items-center">
++        <div className="col-12 col-md-6 px-3 py-3">
++          <JoinUsCard
++            icon={<i className="fas fa-map-marked-alt"></i>}
++            title="Mapa"
++            desc="Zkoumej svět DeltaCraftu z pohodlí svého prohlížeče"
++            link="https://map.deltacraft.eu/"
++          />
++        </div>
++        <div className="col-12 col-md-6 px-3 py-3">
++          <JoinUsCard
++            icon={<i className="fab fa-discord"></i>}
++            title="Discord"
++            desc="Připoj se na náš Discord server"
++            link="https://discord.gg/NcHEfTx"
++          />
++        </div>
++      </div>
++    </div>
++  );
++};
++
++export default JoinUsContainer;
+\ No newline at end of file
+diff --git a/components/team-bar/index.ts b/components/team-bar/index.ts
+index 5be1026..2e9c0e4 100644
+--- a/components/team-bar/index.ts
++++ b/components/team-bar/index.ts
+@@ -1,2 +1,2 @@
+ export { default as TeamBar } from "./team-bar";
+-export { default as MainTeamsBar } from "./main-teams-bar";
++export { default as MainTeamsBar } from "./main-teams-bar";
+\ No newline at end of file
+diff --git a/pages/index.tsx b/pages/index.tsx
+index 7b38b6f..24f5520 100644
+--- a/pages/index.tsx
++++ b/pages/index.tsx
+@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
+ import { Layout } from "../components/layout";
+ import { StatChart } from "../components/stat-chart";
+ import { MainTeamsBar } from "../components/team-bar";
++import { JoinUsContainer } from "../components/join-us";
+ 
+ const Page: React.FC = () => {
+   return (
+@@ -15,6 +16,10 @@ const Page: React.FC = () => {
+         <h2 className="mb-4">Statistika týmů</h2>
+         <MainTeamsBar />
+       </div>
++
++      <div>
++        <JoinUsContainer></JoinUsContainer>
++      </div>
+     </Layout>
+   );
+ };
