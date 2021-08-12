@@ -20,7 +20,7 @@ const DonatePage: React.FC = () => {
                 PayPal
               </Typography>
               <Link passHref href="https://paypal.me/karelkoudelka">
-                <a target="_blank">
+                <a target="_blank" rel="noopener">
                   <Button variant="outlined">paypal.me/karelkoudelka</Button>
                 </a>
               </Link>
