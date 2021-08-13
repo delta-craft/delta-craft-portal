@@ -17,7 +17,7 @@ const Page: React.FC = () => {
         <div className="d-flex justify-content-center align-items-center">
           <div className="col-12 col-md-6">
             <Paper className="m-2 p-4">
-              <Typography> GitHub Issue Tracker</Typography>
+              <Typography>GitHub Issue Tracker</Typography>
               <Typography variant="body1" className="mt-2">
                 Nový bug/feature request?
               </Typography>
@@ -27,6 +27,18 @@ const Page: React.FC = () => {
               <Link href="https://github.com/delta-craft/issue-tracker/issues">
                 <a target="_blank" rel="noopener">
                   <Button variant="outlined">GitHub Issues</Button>
+                </a>
+              </Link>
+            </Paper>
+          </div>
+        </div>
+        <div className="d-flex justify-content-center align-items-center">
+          <div className="col-12 col-md-6">
+            <Paper className="m-2 p-4">
+              <Typography className="my-2">V případě potřeby</Typography>
+              <Link href="mailto:textus@deltacraft.eu">
+                <a target="_blank">
+                  <Button variant="outlined">textus@deltacraft.eu</Button>
                 </a>
               </Link>
             </Paper>
