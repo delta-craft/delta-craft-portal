@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useState } from "react";
 import { Layout } from "../../components/layout";
 import { GetServerSideProps, NextApiRequest } from "next";
 import getClientSsr from "../../src/gql/client/client-ssr";
@@ -18,6 +18,9 @@ import {
   GetPlayerDetailNoPointsVariables,
   GetPlayerDetailNoPoints_player,
 } from "../../src/gql/client/types/GetPlayerDetailNoPoints";
+import { PointsSummaryContainer } from "../../components/player/point-summary";
+import Collapse from "@material-ui/core/Collapse";
+import Button from "@material-ui/core/Button";
 
 interface IProps {
   nick: string;
@@ -25,6 +28,8 @@ interface IProps {
 }
 
 const Page: React.FC<IProps> = ({ nick, player }) => {
+  const [detailsTable, setDetailsTable] = useState(false);
+
   const { name, id, team } = player;
   const majorTeam = team?.majorTeam;
 
@@ -90,7 +95,24 @@ const Page: React.FC<IProps> = ({ nick, player }) => {
           <Typography variant="h6" className="my-2">
             Získané body
           </Typography>
-          <PointsTableContainer nick={nick} />
+          <PointsSummaryContainer nick={nick} />
+        </Paper>
+        <Paper className="px-2 py-3 mt-3 text-center">
+          <div className="d-flex flex-row justify-content-center align-items-center">
+            <Typography variant="h6" className="my-2 mx-2">
+              Podrobnosti o bodech
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={() => setDetailsTable(!detailsTable)}
+              className="mx-2"
+            >
+              {!detailsTable ? "Zobrazit" : "Skrýt"}
+            </Button>
+          </div>
+          <Collapse in={detailsTable} unmountOnExit>
+            <PointsTableContainer nick={nick} />
+          </Collapse>
         </Paper>
       </div>
     </Layout>

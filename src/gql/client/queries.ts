@@ -231,3 +231,33 @@ export const getPollQuery = gql`
     }
   }
 `;
+
+export const getPlayerStatsQuery = gql`
+  query PlayerStats($playerNickname: String!) {
+    player(nickname: $playerNickname) {
+      stats {
+        mining {
+          totalPoints
+          data {
+            count
+            material
+          }
+        }
+        crafting {
+          totalPoints
+          data {
+            count
+            material
+          }
+        }
+        mob {
+          totalPoints
+          data {
+            count
+            entity
+          }
+        }
+      }
+    }
+  }
+`;
